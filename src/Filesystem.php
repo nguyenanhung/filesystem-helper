@@ -799,7 +799,6 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         public function fileRename($path, $newName)
         {
             $newPath = string_to_path($this->fileGetDirectory($path), $newName);
-
             return rename($path, $newPath);
         }
     }
