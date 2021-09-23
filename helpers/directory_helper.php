@@ -34,7 +34,7 @@ if (!function_exists('directory_map')) {
      *
      * @return    array|bool
      */
-    function directory_map($source_dir, $directory_depth = 0, $hidden = false)
+    function directory_map(string $source_dir, int $directory_depth = 0, bool $hidden = false)
     {
         if ($fp = @opendir($source_dir)) {
             $fileData   = array();
@@ -76,7 +76,7 @@ if (!function_exists('directory_get_name')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/08/2021 52:48
      */
-    function directory_get_name($path)
+    function directory_get_name($path): string
     {
         return basename($path);
     }
@@ -93,7 +93,7 @@ if (!function_exists('directory_get_parent')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/08/2021 52:51
      */
-    function directory_get_parent($path)
+    function directory_get_parent($path): string
     {
         return dirname($path);
     }
@@ -108,7 +108,7 @@ if (!function_exists('directory_create')) {
      *
      * @return bool
      */
-    function directory_create($path, $mode = 0777)
+    function directory_create($path, int $mode = 0777): bool
     {
         if (!directory_exists($path)) {
             return mkdir($path, $mode, true);
@@ -126,7 +126,7 @@ if (!function_exists('directory_delete')) {
      *
      * @return bool
      */
-    function directory_delete($path)
+    function directory_delete($path): bool
     {
         if (directory_exists($path)) {
             $files = directory_list($path);
@@ -156,7 +156,7 @@ if (!function_exists('directory_exists')) {
      *
      * @return bool
      */
-    function directory_exists($path)
+    function directory_exists($path): bool
     {
         return is_dir($path);
     }
@@ -171,7 +171,7 @@ if (!function_exists('directory_rename')) {
      *
      * @return bool
      */
-    function directory_rename($path, $newName)
+    function directory_rename($path, $newName): bool
     {
         return file_rename($path, $newName);
     }
@@ -186,7 +186,7 @@ if (!function_exists('directory_move')) {
      *
      * @return bool
      */
-    function directory_move($oldPath, $newPath)
+    function directory_move($oldPath, $newPath): bool
     {
         return file_move($oldPath, $newPath);
     }
@@ -255,7 +255,7 @@ if (!function_exists('directory_list')) {
      *
      * @return array
      */
-    function directory_list($path, $absolute = false)
+    function directory_list($path, bool $absolute = false): array
     {
         if (!directory_exists($path)) {
             return [];
@@ -282,7 +282,7 @@ if (!function_exists('directory_list_files')) {
      *
      * @return array
      */
-    function directory_list_files($path, $absolute = false)
+    function directory_list_files($path, bool $absolute = false): array
     {
         return array_values(
             array_filter(
@@ -311,7 +311,7 @@ if (!function_exists('directory_list_directories')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/08/2021 52:56
      */
-    function directory_list_directories($path, $absolute = false)
+    function directory_list_directories($path, bool $absolute = false): array
     {
         return array_values(
             array_filter(

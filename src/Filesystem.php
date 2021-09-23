@@ -13,6 +13,7 @@ namespace nguyenanhung\Libraries\Filesystem;
 use DateTime;
 use Exception;
 use SplFileInfo;
+use Iterator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use TheSeer\DirectoryScanner\DirectoryScanner;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
@@ -38,27 +39,35 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Function setInclude
          *
-         * @author: 713uk13m <dev@nguyenanhung.com>
-         * @time  : 10/17/18 10:23
-         *
          * @param array $include
+         *
+         * @return $this
+         * @author   : 713uk13m <dev@nguyenanhung.com>
+         * @copyright: 713uk13m <dev@nguyenanhung.com>
+         * @time     : 09/24/2021 40:32
          */
-        public function setInclude($include = array())
+        public function setInclude(array $include = array()): Filesystem
         {
             $this->scanInclude = $include;
+
+            return $this;
         }
 
         /**
          * Function setExclude
          *
-         * @author: 713uk13m <dev@nguyenanhung.com>
-         * @time  : 10/17/18 10:23
-         *
          * @param array $exclude
+         *
+         * @return $this
+         * @author   : 713uk13m <dev@nguyenanhung.com>
+         * @copyright: 713uk13m <dev@nguyenanhung.com>
+         * @time     : 09/24/2021 40:34
          */
-        public function setExclude($exclude = array())
+        public function setExclude(array $exclude = array()): Filesystem
         {
             $this->scanExclude = $exclude;
+
+            return $this;
         }
 
         /**
@@ -68,14 +77,14 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @time  : 10/17/18 10:19
          *
          * @param string     $path     Đường dẫn thư mục cần quét, VD: /your/to/path
-         * @param null|array $includes Mảng dữ liệu chứa các thuộc tính cần quét
-         * @param null|array $excludes Mảng dữ liệu chứa các thuộc tính bỏ qua không quét
+         * @param array|null $includes Mảng dữ liệu chứa các thuộc tính cần quét
+         * @param array|null $excludes Mảng dữ liệu chứa các thuộc tính bỏ qua không quét
          *
          * @see   https://github.com/theseer/DirectoryScanner/blob/master/samples/sample.php
          *
          * @return \Iterator
          */
-        public function directoryScanner($path = '', $includes = null, $excludes = null)
+        public function directoryScanner(string $path = '', array $includes = null, array $excludes = null): Iterator
         {
             $scanner = new DirectoryScanner();
             if (is_array($includes) && !empty($includes)) {
@@ -103,7 +112,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return array Mảng thông tin về các file đã xóa
          */
-        public function cleanLog($path = '', $dayToDel = 3)
+        public function cleanLog(string $path = '', int $dayToDel = 3)
         {
             try {
                 $getDir             = $this->directoryScanner($path, $this->scanInclude, $this->scanExclude);
@@ -149,7 +158,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return array Mảng thông tin về các file đã xóa
          */
-        public function removeLog($path = '', $dayToDel = 3)
+        public function removeLog(string $path = '', int $dayToDel = 3)
         {
             return $this->cleanLog($path, $dayToDel);
         }
@@ -164,7 +173,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 07/30/2020 03:15
          */
-        public function scanAndCleanLog($listFolder = array(), $dayToDelete = 3)
+        public function scanAndCleanLog(array $listFolder = array(), int $dayToDelete = 3)
         {
             if (empty($listFolder)) {
                 Console::writeLn("Không có mảng dữ liệu cần quét");
@@ -186,7 +195,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 09/20/2021 59:38
          */
-        public function formatSizeUnits($bytes = 0)
+        public function formatSizeUnits(int $bytes = 0): string
         {
             if ($bytes >= 1073741824) {
                 $bytes = number_format($bytes / 1073741824, 2) . ' GB';
@@ -216,7 +225,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 32:15
          */
-        public function createNewFolder($pathname = '', $mode = 0777)
+        public function createNewFolder(string $pathname = '', int $mode = 0777): bool
         {
             if (empty($pathname)) {
                 return false;
@@ -267,7 +276,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool
          */
-        public function isReallyWritable($file)
+        public function isReallyWritable($file): bool
         {
             // If we're on a Unix server with safe_mode off we call is_writable
             if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') or !ini_get('safe_mode'))) {
@@ -330,7 +339,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool
          */
-        public function writeFile($path, $data, $mode = 'wb')
+        public function writeFile(string $path, string $data, string $mode = 'wb'): bool
         {
             if (!$fp = @fopen($path, $mode)) {
                 return false;
@@ -365,7 +374,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool
          */
-        public function deleteFiles($path, $del_dir = false, $htdocs = false, $_level = 0)
+        public function deleteFiles(string $path, bool $del_dir = false, bool $htdocs = false, int $_level = 0): bool
         {
             // Trim the trailing slash
             $path = rtrim($path, '/\\');
@@ -491,7 +500,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return array|false
          */
-        public function getFileInfo($file, $returned_values = array('name', 'server_path', 'size', 'date'))
+        public function getFileInfo(string $file, $returned_values = array('name', 'server_path', 'size', 'date'))
         {
             if (!file_exists($file)) {
                 return false;
@@ -544,21 +553,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @param string $filename File name
          *
-         * @return    string
+         * @return    bool|string
          */
-        public function getMimeByExtension($filename)
+        public function getMimeByExtension(string $filename)
         {
-            $mimes = Mimes::getMimes();
-
-            $extension = strtolower(substr(strrchr($filename, '.'), 1));
-
-            if (isset($mimes[$extension])) {
-                return is_array($mimes[$extension])
-                    ? current($mimes[$extension]) // Multiple mime types, just give the first one
-                    : $mimes[$extension];
-            }
-
-            return false;
+            return Mimes::getMimeByExtension($filename);
         }
 
         /**
@@ -571,7 +570,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function symbolicPermissions($perms)
+        public function symbolicPermissions(int $perms): string
         {
             if (($perms & 0xC000) === 0xC000) {
                 $symbolic = 's'; // Socket
@@ -619,7 +618,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function octalPermissions($perms)
+        public function octalPermissions(int $perms): string
         {
             return substr(sprintf('%o', $perms), -3);
         }
@@ -691,7 +690,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileCreate($path)
+        public function fileCreate($path): bool
         {
             if (!file_exists($path)) {
                 $dir = $this->fileGetDirectory($path);
@@ -714,7 +713,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileWrite($path, $content)
+        public function fileWrite($path, $content): bool
         {
             $this->fileCreate($path);
 
@@ -729,7 +728,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileAppend($path, $content)
+        public function fileAppend($path, $content): bool
         {
             if (file_exists($path)) {
                 return $this->fileWrite($path, $this->fileRead($path) . $content);
@@ -746,7 +745,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function filePrepend($path, $content)
+        public function filePrepend($path, $content): bool
         {
             if (file_exists($path)) {
                 return $this->fileWrite($path, $content . $this->fileRead($path));
@@ -762,7 +761,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileDelete($path)
+        public function fileDelete($path): bool
         {
             if (file_exists($path)) {
                 return unlink($path);
@@ -780,7 +779,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function file_move($oldPath, $newPath)
+        public function file_move($oldPath, $newPath): bool
         {
             return $this->fileMove($oldPath, $newPath);
         }
@@ -794,7 +793,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileMove($oldPath, $newPath)
+        public function fileMove($oldPath, $newPath): bool
         {
             $dir = $this->fileGetDirectory($newPath);
 
@@ -814,7 +813,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileCopy($oldPath, $newPath)
+        public function fileCopy($oldPath, $newPath): bool
         {
             $dir = $this->fileGetDirectory($newPath);
 
@@ -836,7 +835,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 09/24/2021 13:56
          */
-        public function fileRename($path, $newName)
+        public function fileRename($path, $newName): bool
         {
             try {
                 $this->rename($path, $newName);
@@ -861,7 +860,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function sanitizeFilename($str, $relative_path = false)
+        public function sanitizeFilename(string $str, bool $relative_path = false): string
         {
             $bad = array(
                 '../', '<!--', '-->', '<', '>',

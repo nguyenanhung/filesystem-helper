@@ -23,14 +23,14 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
         /**
          * Function getData - Hàm lấy nội dung config được quy định trong thư mục config
          *
-         * @param $configName
+         * @param string $configName
          *
          * @return array|mixed
          * @author   : 713uk13m <dev@nguyenanhung.com>
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/08/2021 40:44
          */
-        public static function getData($configName)
+        public static function getData(string $configName)
         {
             $path = __DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $configName . '.php';
             if (is_file($path) && file_exists($path)) {
@@ -50,7 +50,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
          *
          * @return array|mixed
          */
-        public static function getDataContent($filename)
+        public static function getDataContent(string $filename)
         {
             if (is_file($filename) && file_exists($filename)) {
                 return require $filename;

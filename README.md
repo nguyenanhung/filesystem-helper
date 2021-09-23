@@ -2,13 +2,18 @@
 
 # Helpers - Filesystem
 
-### CodeIgniter Helper
+## Version
+
+- [x] Version `1.x` support all PHP Version `>=5.6`
+- [x] Version `2.x` support all PHP Version `>=7.0`
+
+## CodeIgniter Helper
 
 - [x] directory_helper
 - [x] path_helper
 - [x] file_helper
 
-### Support Classes
+## Support Classes
 
 - [x] DataRepository
 - [x] Directory

@@ -45,6 +45,9 @@
  * @filesource
  */
 
+use nguyenanhung\Libraries\Filesystem\Filesystem;
+use nguyenanhung\Libraries\Filesystem\Mimes;
+
 /**
  * CodeIgniter File Helpers
  *
@@ -69,7 +72,7 @@ if (!function_exists('is_really_writable')) {
      *
      * @return    bool
      */
-    function is_really_writable($file)
+    function is_really_writable($file): bool
     {
         // If we're on a Unix server with safe_mode off we call is_writable
         if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') || !ini_get('safe_mode'))) {
@@ -115,7 +118,7 @@ if (!function_exists('read_file')) {
      *
      * @return    string    File contents
      */
-    function read_file($file)
+    function read_file(string $file): string
     {
         return @file_get_contents($file);
     }
@@ -134,7 +137,7 @@ if (!function_exists('write_file')) {
      *
      * @return    bool
      */
-    function write_file($path, $data, $mode = 'wb')
+    function write_file(string $path, string $data, string $mode = 'wb'): bool
     {
         if (!$fp = @fopen($path, $mode)) {
             return false;
@@ -171,7 +174,7 @@ if (!function_exists('delete_files')) {
      *
      * @return    bool
      */
-    function delete_files($path, $del_dir = false, $htdocs = false, $_level = 0)
+    function delete_files(string $path, bool $del_dir = false, bool $htdocs = false, int $_level = 0): bool
     {
         // Trim the trailing slash
         $path = rtrim($path, '/\\');
@@ -303,7 +306,7 @@ if (!function_exists('get_file_info')) {
      *
      * @return array|false
      */
-    function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
+    function get_file_info(string $file, $returned_values = array('name', 'server_path', 'size', 'date'))
     {
         if (!file_exists($file)) {
             return false;
@@ -358,21 +361,12 @@ if (!function_exists('get_mime_by_extension')) {
      *
      * @param string $filename File name
      *
-     * @return    string
+     * @return    bool|string
      */
-    function get_mime_by_extension($filename)
+
+    function get_mime_by_extension(string $filename)
     {
-        $mimes = nguyenanhung\Libraries\Filesystem\Mimes::getMimes();
-
-        $extension = strtolower(substr(strrchr($filename, '.'), 1));
-
-        if (isset($mimes[$extension])) {
-            return is_array($mimes[$extension])
-                ? current($mimes[$extension]) // Multiple mime types, just give the first one
-                : $mimes[$extension];
-        }
-
-        return false;
+        return Mimes::getMimeByExtension($filename);
     }
 }
 
@@ -387,11 +381,9 @@ if (!function_exists('symbolic_permissions')) {
      *
      * @return    string
      */
-    function symbolic_permissions($perms)
+    function symbolic_permissions(int $perms): string
     {
-        $system = new nguyenanhung\Libraries\Filesystem\Filesystem();
-
-        return $system->symbolicPermissions($perms);
+        return (new Filesystem())->symbolicPermissions($perms);
     }
 }
 
@@ -406,11 +398,9 @@ if (!function_exists('octal_permissions')) {
      *
      * @return    string
      */
-    function octal_permissions($perms)
+    function octal_permissions(int $perms): string
     {
-        $system = new nguyenanhung\Libraries\Filesystem\Filesystem();
-
-        return $system->octalPermissions($perms);
+        return (new Filesystem())->octalPermissions($perms);
     }
 }
 
@@ -491,7 +481,7 @@ if (!function_exists('file_create')) {
      *
      * @return bool
      */
-    function file_create($path)
+    function file_create($path): bool
     {
         if (!file_exists($path)) {
             $dir = file_get_directory($path);
@@ -516,7 +506,7 @@ if (!function_exists('file_write')) {
      *
      * @return bool
      */
-    function file_write($path, $content)
+    function file_write($path, $content): bool
     {
         file_create($path);
 
@@ -533,7 +523,7 @@ if (!function_exists('file_append')) {
      *
      * @return bool
      */
-    function file_append($path, $content)
+    function file_append($path, $content): bool
     {
         if (file_exists($path)) {
             return file_write($path, file_read($path) . $content);
@@ -552,7 +542,7 @@ if (!function_exists('file_prepend')) {
      *
      * @return bool
      */
-    function file_prepend($path, $content)
+    function file_prepend($path, $content): bool
     {
         if (file_exists($path)) {
             return file_write($path, $content . file_read($path));
@@ -570,7 +560,7 @@ if (!function_exists('file_delete')) {
      *
      * @return bool
      */
-    function file_delete($path)
+    function file_delete($path): bool
     {
         if (file_exists($path)) {
             return unlink($path);
@@ -590,7 +580,7 @@ if (!function_exists('file_move')) {
      *
      * @return bool
      */
-    function file_move($oldPath, $newPath)
+    function file_move($oldPath, $newPath): bool
     {
         $dir = file_get_directory($newPath);
 
@@ -612,7 +602,7 @@ if (!function_exists('file_copy')) {
      *
      * @return bool
      */
-    function file_copy($oldPath, $newPath)
+    function file_copy($oldPath, $newPath): bool
     {
         $dir = file_get_directory($newPath);
 
@@ -633,9 +623,9 @@ if (!function_exists('file_rename')) {
      *
      * @return bool
      */
-    function file_rename($path, $newName)
+    function file_rename($path, $newName): bool
     {
-        return (new nguyenanhung\Libraries\Filesystem\Filesystem())->fileRename($path, $newName);
+        return (new Filesystem())->fileRename($path, $newName);
     }
 }
 
@@ -650,11 +640,9 @@ if (!function_exists('format_size_units')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/18/2021 34:56
      */
-    function format_size_units($bytes = 0)
+    function format_size_units(int $bytes = 0): string
     {
-        $system = new nguyenanhung\Libraries\Filesystem\Filesystem();
-
-        return $system->formatSizeUnits($bytes);
+        return (new Filesystem())->formatSizeUnits($bytes);
     }
 }
 
@@ -670,11 +658,9 @@ if (!function_exists('create_new_folder')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/18/2021 35:49
      */
-    function create_new_folder($pathname = '', $mode = 0777)
+    function create_new_folder(string $pathname = '', int $mode = 0777): bool
     {
-        $system = new nguyenanhung\Libraries\Filesystem\Filesystem();
-
-        return $system->createNewFolder($pathname, $mode);
+        return (new Filesystem())->createNewFolder($pathname, $mode);
     }
 }
 
@@ -687,7 +673,7 @@ if (!function_exists('sanitize_filename')) {
      *
      * @return    string
      */
-    function sanitize_filename($str, $relative_path = false)
+    function sanitize_filename(string $str, bool $relative_path = false): string
     {
         $bad = array(
             '../', '<!--', '-->', '<', '>',
