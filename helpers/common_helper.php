@@ -27,9 +27,9 @@ if (!function_exists('is_php')) {
         return $_is_php[$version];
     }
 }
-if (!function_exists('string_to_path')) {
+if (!function_exists('stringToPath')) {
     /**
-     * Function string_to_path - Combine multiple strings to a path.
+     * Function stringToPath - Combine multiple strings to a path.
      *
      * @param $paths
      *
@@ -38,7 +38,7 @@ if (!function_exists('string_to_path')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/08/2021 54:11
      */
-    function string_to_path($paths)
+    function stringToPath($paths)
     {
         if (!is_array($paths)) {
             $paths = func_get_args();
@@ -52,5 +52,21 @@ if (!function_exists('string_to_path')) {
         );
 
         return preg_replace('#([' . DIRECTORY_SEPARATOR . ']+$)#', '', $path);
+    }
+}
+if (!function_exists('string_to_path')) {
+    /**
+     * Function string_to_path - Combine multiple strings to a path.
+     *
+     * @param $paths
+     *
+     * @return array|string|string[]|null
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 08/08/2021 54:11
+     */
+    function string_to_path($paths)
+    {
+        return stringToPath($paths);
     }
 }
