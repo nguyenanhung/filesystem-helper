@@ -679,3 +679,50 @@ if (!function_exists('create_new_folder')) {
         return $system->createNewFolder($pathname, $mode);
     }
 }
+
+if (!function_exists('sanitize_filename')) {
+    /**
+     * Sanitize Filename
+     *
+     * @param string $str           Input file name
+     * @param bool   $relative_path Whether to preserve paths
+     *
+     * @return    string
+     */
+    function sanitize_filename($str, $relative_path = false)
+    {
+        $bad = array(
+            '../', '<!--', '-->', '<', '>',
+            "'", '"', '&', '$', '#',
+            '{', '}', '[', ']', '=',
+            ';', '?', '%20', '%22',
+            '%3c',        // <
+            '%253c',    // <
+            '%3e',        // >
+            '%0e',        // >
+            '%28',        // (
+            '%29',        // )
+            '%2528',    // (
+            '%26',        // &
+            '%24',        // $
+            '%3f',        // ?
+            '%3b',        // ;
+            '%3d'        // =
+        );
+
+        if (!$relative_path) {
+            $bad[] = './';
+            $bad[] = '/';
+        }
+
+        $str = remove_invisible_characters($str, false);
+
+        do {
+            $old = $str;
+            $str = str_replace($bad, '', $str);
+        }
+        while ($old !== $str);
+
+        return stripslashes($str);
+    }
+}
