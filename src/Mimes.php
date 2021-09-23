@@ -44,9 +44,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Mimes')) {
          *
          * @param string $filename File name
          *
-         * @return    string
+         * @return    bool|string
          */
-        public static function getMimeByExtension($filename)
+        public static function getMimeByExtension(string $filename)
         {
             $mimes = static::getMimes();
 

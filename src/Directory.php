@@ -38,7 +38,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @throws  InvalidArgumentException  if $absolute is not a string
          * @throws  InvalidArgumentException  if $base is not a string
          */
-        public static function abs2rel($absolute, $base)
+        public static function abs2rel(string $absolute, string $base): string
         {
             // $rel = false;
 
@@ -120,7 +120,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @see    http://stackoverflow.com/a/2050909  Felix King's answer to "Copy entire
          *    contents of a directory to another using php" on StackOverflow
          */
-        public static function copy($source, $destination, $mode = 0777)
+        public static function copy(string $source, string $destination, int $mode = 0777): bool
         {
             $isSuccess = false;
 
@@ -239,7 +239,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/08/2021 24:44
          */
-        public function cp($source, $destination, $mode = 0777)
+        public function cp($source, $destination, int $mode = 0777): bool
         {
             return self::copy($source, $destination, $mode);
         }
@@ -270,7 +270,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @see    http://us1.php.net/rmdir  rmdir() man page
          *
          */
-        public static function remove($directory, $container)
+        public static function remove(string $directory, string $container): bool
         {
             // $isSuccess = false;
 
@@ -367,7 +367,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          *
          * @return bool
          */
-        public function rm($directory, $container)
+        public function rm($directory, $container): bool
         {
             return self::remove($directory, $container);
         }
@@ -383,7 +383,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/08/2021 27:09
          */
-        public static function startsWith($haystack, $needle)
+        public static function startsWith($haystack, $needle): bool
         {
             // if $haystack and $needle are given
             if ($haystack !== null && $needle !== null) {
@@ -424,7 +424,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          *
          * @return bool
          */
-        public static function directoryExists($path)
+        public static function directoryExists($path): bool
         {
             return is_dir($path);
         }
@@ -437,7 +437,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          *
          * @return bool
          */
-        public static function directoryCreate($path, $mode = 0777)
+        public static function directoryCreate($path, int $mode = 0777): bool
         {
             if (!directory_exists($path)) {
                 return mkdir($path, $mode, true);
@@ -460,7 +460,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          *
          * @return    array|bool
          */
-        public static function directoryMap($source_dir, $directory_depth = 0, $hidden = false)
+        public static function directoryMap(string $source_dir, int $directory_depth = 0, bool $hidden = false)
         {
             if ($fp = @opendir($source_dir)) {
                 $fileData   = array();
@@ -500,7 +500,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 10:20
          */
-        public static function directoryGetName($path)
+        public static function directoryGetName($path): string
         {
             return basename($path);
         }
@@ -515,7 +515,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 10:49
          */
-        public static function directoryGetParent($path)
+        public static function directoryGetParent($path): string
         {
             return dirname($path);
         }

@@ -15,7 +15,7 @@ if (!function_exists('is_php')) {
      *
      * @return    bool    TRUE if the current version is $version or higher
      */
-    function is_php($version)
+    function is_php($version): bool
     {
         static $_is_php;
         $version = (string) $version;
@@ -82,7 +82,7 @@ if (!function_exists('remove_invisible_characters')) {
      *
      * @return    string
      */
-    function remove_invisible_characters($str, $url_encoded = true)
+    function remove_invisible_characters($str, $url_encoded = true): string
     {
         $nonDisplay = array();
         // every control character except newline (dec 10),
