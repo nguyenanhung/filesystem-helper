@@ -37,7 +37,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
                 return require $path;
             }
 
-            return [];
+            return array();
         }
 
         /**
@@ -56,7 +56,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
                 return require $filename;
             }
 
-            return [];
+            return array();
         }
     }
 }

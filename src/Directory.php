@@ -40,7 +40,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          */
         public static function abs2rel($absolute, $base)
         {
-            $rel = false;
+            // $rel = false;
 
             // if $absolute and $base are given
             if ($absolute !== null && $base !== null) {
@@ -272,7 +272,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          */
         public static function remove($directory, $container)
         {
-            $isSuccess = false;
+            // $isSuccess = false;
 
             // if $directory and $container are given
             if ($directory !== null && $container !== null) {
@@ -309,13 +309,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                                             if (!$isSuccess) {
                                                 break;
                                             }
-                                        } else {
-                                            // there was nothing to remove
-                                            // set $isSuccess true in case the directory is empty
-                                            // if it's not empty, $isSuccess will be overwritten anyway
-                                            //
-                                            $isSuccess = true;
                                         }
+                                        // there was nothing to remove
+                                        // set $isSuccess true in case the directory is empty
+                                        // if it's not empty, $isSuccess will be overwritten anyway
+                                        //
+                                        // $isSuccess = true;
+
                                         // advance to the next entity
                                         $entity = readdir($dir);
                                     }

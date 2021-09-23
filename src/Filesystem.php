@@ -30,39 +30,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
         /** @var null|array Mảng dữ liệu chứa các thuộc tính cần quét */
         private $scanInclude = ['*.log', '*.txt'];
+
         /** @var null|array Mảng dữ liệu chứa các thuộc tính bỏ qua không quét */
         private $scanExclude = ['*/Zip-Archive/*.zip'];
-
-        /**
-         * Hàm quét thư mục và list ra danh sách các file con
-         *
-         * @author: 713uk13m <dev@nguyenanhung.com>
-         * @time  : 10/17/18 10:19
-         *
-         * @param string     $path    Đường dẫn thư mục cần quét, VD: /your/to/path
-         * @param null|array $include Mảng dữ liệu chứa các thuộc tính cần quét
-         * @param null|array $exclude Mảng dữ liệu chứa các thuộc tính bỏ qua không quét
-         *
-         * @see   https://github.com/theseer/DirectoryScanner/blob/master/samples/sample.php
-         *
-         * @return \Iterator
-         */
-        public function directoryScanner($path = '', $include = null, $exclude = null)
-        {
-            $scanner = new DirectoryScanner();
-            if (is_array($include) && !empty($include)) {
-                foreach ($include as $inc) {
-                    $scanner->addInclude($inc);
-                }
-            }
-            if (is_array($exclude) && !empty($exclude)) {
-                foreach ($exclude as $exc) {
-                    $scanner->addExclude($exc);
-                }
-            }
-
-            return $scanner($path);
-        }
 
         /**
          * Function setInclude
@@ -72,7 +42,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @param array $include
          */
-        public function setInclude($include = [])
+        public function setInclude($include = array())
         {
             $this->scanInclude = $include;
         }
@@ -85,9 +55,40 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @param array $exclude
          */
-        public function setExclude($exclude = [])
+        public function setExclude($exclude = array())
         {
             $this->scanExclude = $exclude;
+        }
+
+        /**
+         * Hàm quét thư mục và list ra danh sách các file con
+         *
+         * @author: 713uk13m <dev@nguyenanhung.com>
+         * @time  : 10/17/18 10:19
+         *
+         * @param string     $path     Đường dẫn thư mục cần quét, VD: /your/to/path
+         * @param null|array $includes Mảng dữ liệu chứa các thuộc tính cần quét
+         * @param null|array $excludes Mảng dữ liệu chứa các thuộc tính bỏ qua không quét
+         *
+         * @see   https://github.com/theseer/DirectoryScanner/blob/master/samples/sample.php
+         *
+         * @return \Iterator
+         */
+        public function directoryScanner($path = '', $includes = null, $excludes = null)
+        {
+            $scanner = new DirectoryScanner();
+            if (is_array($includes) && !empty($includes)) {
+                foreach ($includes as $include) {
+                    $scanner->addInclude($include);
+                }
+            }
+            if (is_array($excludes) && !empty($excludes)) {
+                foreach ($excludes as $exclude) {
+                    $scanner->addExclude($exclude);
+                }
+            }
+
+            return $scanner($path);
         }
 
         /**
@@ -105,7 +106,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         {
             try {
                 $getDir             = $this->directoryScanner($path, $this->scanInclude, $this->scanExclude);
-                $result             = [];
+                $result             = array();
                 $result['scanPath'] = $path;
                 foreach ($getDir as $fileName) {
                     $SplFileInfo = new SplFileInfo($fileName);
@@ -115,8 +116,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $dateTime   = new DateTime("-" . $dayToDel . " days");
                     $deleteTime = $dateTime->format($format);
                     // Lấy modifyTime của file
-                    $getfileTime = filemtime($filename);
-                    $fileTime    = date($format, $getfileTime);
+                    $getFileTime = filemtime($filename);
+                    $fileTime    = date($format, $getFileTime);
                     if ($fileTime < $deleteTime) {
                         $this->chmod($filename, 0777);
                         $this->remove($filename);
@@ -204,10 +205,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                 try {
                     $this->mkdir($pathname, $mode);
                     // Gen file Index.html + .htaccess
-                    $fileIndex           = $pathname . DIRECTORY_SEPARATOR . 'index.html';
-                    $fileReadme          = $pathname . DIRECTORY_SEPARATOR . 'README.md';
-                    $fileHtaccess        = $pathname . DIRECTORY_SEPARATOR . '.htaccess';
-                    $fileContentIndex    = "<!DOCTYPE html>\n<html lang='vi'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
+                    $fileIndex           = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
+                    $fileReadme          = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
+                    $fileHtaccess        = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
+                    $fileContentIndex    = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
                     $fileContentHtaccess = "RewriteEngine On\nOptions -Indexes\nAddType text/plain php3 php4 php5 php cgi asp aspx html css js";
                     $fileContentReadme   = "#" . $pathname . " README";
 
@@ -217,6 +218,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
                     return true;
                 } catch (Exception $e) {
+                    if (function_exists('log_message')) {
+                        // Save Log if use CodeIgniter Framework
+                        log_message('error', 'Error Message: ' . $e->getMessage());
+                        log_message('error', 'Error Trace As String: ' . $e->getTraceAsString());
+                    }
+
                     return false;
                 }
             }
@@ -225,7 +232,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         }
 
         /**
-         * Tests for file writability
+         * Tests for file is Really Writable
          *
          * is_writable() returns TRUE on Windows servers when you really can't write to
          * the file, based on the read-only attribute. is_writable() is also unreliable
@@ -360,9 +367,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
             if (($del_dir === true && $_level > 0)) {
                 return @rmdir($path);
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         /**
