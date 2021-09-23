@@ -635,9 +635,7 @@ if (!function_exists('file_rename')) {
      */
     function file_rename($path, $newName)
     {
-        $newPath = string_to_path(file_get_directory($path), $newName);
-
-        return rename($path, $newPath);
+        return (new nguyenanhung\Libraries\Filesystem\Filesystem())->fileRename($path, $newName);
     }
 }
 

@@ -13,6 +13,7 @@ namespace nguyenanhung\Libraries\Filesystem;
 use DateTime;
 use Exception;
 use SplFileInfo;
+use Symfony\Component\Filesystem\Exception\IOException;
 use TheSeer\DirectoryScanner\DirectoryScanner;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
@@ -151,6 +152,28 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         public function removeLog($path = '', $dayToDel = 3)
         {
             return $this->cleanLog($path, $dayToDel);
+        }
+
+        /**
+         * Hàm quét và xoá các file Log từ 1 mảng chỉ định
+         *
+         * @param array $listFolder  Mảng chứa dữ liệu các folder cần quét
+         * @param int   $dayToDelete Số ngày cần lưu giữ
+         *
+         * @author   : 713uk13m <dev@nguyenanhung.com>
+         * @copyright: 713uk13m <dev@nguyenanhung.com>
+         * @time     : 07/30/2020 03:15
+         */
+        public function scanAndCleanLog($listFolder = array(), $dayToDelete = 3)
+        {
+            if (empty($listFolder)) {
+                Console::writeLn("Không có mảng dữ liệu cần quét");
+                exit();
+            }
+            foreach ($listFolder as $folder) {
+                Console::writeLn("=========|| DELETE FOLDER LOG: " . $folder . " ||=========");
+                Console::writeLn($this->cleanLog($folder, $dayToDelete));
+            }
         }
 
         /**
@@ -759,6 +782,20 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          */
         public function file_move($oldPath, $newPath)
         {
+            return $this->fileMove($oldPath, $newPath);
+        }
+
+        /**
+         * Move a file from one location to another and
+         * create all necessary subdirectories.
+         *
+         * @param $oldPath
+         * @param $newPath
+         *
+         * @return bool
+         */
+        public function fileMove($oldPath, $newPath)
+        {
             $dir = $this->fileGetDirectory($newPath);
 
             if (!directory_exists($dir)) {
@@ -789,18 +826,31 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         }
 
         /**
-         * Rename file at the given path.
+         * Function fileRename
          *
          * @param $path
          * @param $newName
          *
          * @return bool
+         * @author   : 713uk13m <dev@nguyenanhung.com>
+         * @copyright: 713uk13m <dev@nguyenanhung.com>
+         * @time     : 09/24/2021 13:56
          */
         public function fileRename($path, $newName)
         {
-            $newPath = string_to_path($this->fileGetDirectory($path), $newName);
+            try {
+                $this->rename($path, $newName);
 
-            return rename($path, $newPath);
+                return true;
+            } catch (IOException $e) {
+                if (function_exists('log_message')) {
+                    // Save Log if use CodeIgniter Framework
+                    log_message('error', 'Error Message: ' . $e->getMessage());
+                    log_message('error', 'Error Trace As String: ' . $e->getTraceAsString());
+                }
+
+                return false;
+            }
         }
 
         /**
