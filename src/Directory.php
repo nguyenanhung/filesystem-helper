@@ -98,12 +98,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
          *
          * @since  0.1.0
          *
-         * @param string $source       the source directory path
-         * @param string $destination  the destination directory path
-         * @param int    $mode         the mode of the destination directory as an
-         *                             octal number with a leading zero (ignored on Windows) (optional; if
-         *                             omitted, defaults to 0777, the widest possible access) (set to false to
-         *                             throw an exception if the destination directory does not exist)
+         * @param string   $source      the source directory path
+         * @param string   $destination the destination directory path
+         * @param int|bool $mode        the mode of the destination directory as an
+         *                              octal number with a leading zero (ignored on Windows) (optional; if
+         *                              omitted, defaults to 0777, the widest possible access) (set to false to
+         *                              throw an exception if the destination directory does not exist)
          *
          * @return  bool  true if successful
          *
