@@ -151,7 +151,16 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          */
         public function removeLog($path = '', $dayToDel = 3)
         {
-            return $this->cleanLog($path, $dayToDel);
+            try {
+                return $this->cleanLog($path, $dayToDel);
+            } catch (Exception $e) {
+                if (function_exists('log_message')) {
+                    log_message('error', $e->getMessage());
+                    log_message('error', $e->getTraceAsString());
+                }
+
+                return null;
+            }
         }
 
         /**
