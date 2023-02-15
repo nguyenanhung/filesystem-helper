@@ -68,7 +68,7 @@ if (!function_exists('is_really_writable')) {
      *
      * @link    https://bugs.php.net/bug.php?id=54709
      *
-     * @param string
+     * @param string $file
      *
      * @return    bool
      */
@@ -212,9 +212,9 @@ if (!function_exists('get_filenames')) {
      * Reads the specified directory and builds an array containing the filenames.
      * Any sub-folders contained within the specified path are read as well.
      *
-     * @param string    path to source
-     * @param bool    whether to include the path as part of the filename
-     * @param bool    internal variable to determine recursion status - do not use in calls
+     * @param string $source_dir   path to source
+     * @param bool   $include_path whether to include the path as part of the filename
+     * @param bool   $_recursion   internal variable to determine recursion status - do not use in calls
      *
      * @return    array|bool
      */
@@ -225,7 +225,7 @@ if (!function_exists('get_filenames')) {
         if ($fp = @opendir($source_dir)) {
             // reset the array and make sure $source_dir has a trailing slash on the initial call
             if ($_recursion === false) {
-                $_fileData  = array();
+                $_fileData = array();
                 $source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             }
 
@@ -255,9 +255,9 @@ if (!function_exists('get_dir_file_info')) {
      *
      * Any sub-folders contained within the specified path are read as well.
      *
-     * @param string    path to source
-     * @param bool    Look only at the top level directory specified?
-     * @param bool    internal variable to determine recursion status - do not use in calls
+     * @param string $source_dir     path to source
+     * @param bool   $top_level_only Look only at the top level directory specified?
+     * @param bool   $_recursion     internal variable to determine recursion status - do not use in calls
      *
      * @return    array|bool
      */
@@ -269,7 +269,7 @@ if (!function_exists('get_dir_file_info')) {
         if ($fp = @opendir($source_dir)) {
             // reset the array and make sure $source_dir has a trailing slash on the initial call
             if ($_recursion === false) {
-                $_fileData  = array();
+                $_fileData = array();
                 $source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             }
 
@@ -278,7 +278,7 @@ if (!function_exists('get_dir_file_info')) {
                 if (is_dir($source_dir . $file) && $file[0] !== '.' && $top_level_only === false) {
                     get_dir_file_info($source_dir . $file . DIRECTORY_SEPARATOR, $top_level_only, true);
                 } elseif ($file[0] !== '.') {
-                    $_fileData[$file]                  = get_file_info($source_dir . $file);
+                    $_fileData[$file] = get_file_info($source_dir . $file);
                     $_fileData[$file]['relative_path'] = $relative_path;
                 }
             }
@@ -676,10 +676,25 @@ if (!function_exists('sanitize_filename')) {
     function sanitize_filename(string $str, bool $relative_path = false): string
     {
         $bad = array(
-            '../', '<!--', '-->', '<', '>',
-            "'", '"', '&', '$', '#',
-            '{', '}', '[', ']', '=',
-            ';', '?', '%20', '%22',
+            '../',
+            '<!--',
+            '-->',
+            '<',
+            '>',
+            "'",
+            '"',
+            '&',
+            '$',
+            '#',
+            '{',
+            '}',
+            '[',
+            ']',
+            '=',
+            ';',
+            '?',
+            '%20',
+            '%22',
             '%3c',        // <
             '%253c',    // <
             '%3e',        // >

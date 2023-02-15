@@ -11,7 +11,7 @@ if (!function_exists('is_php')) {
     /**
      * Determines if the current version of PHP is equal to or greater than the supplied value
      *
-     * @param string
+     * @param string $version
      *
      * @return    bool    TRUE if the current version is $version or higher
      */
@@ -45,11 +45,7 @@ if (!function_exists('stringToPath')) {
         }
 
         $path = implode(DIRECTORY_SEPARATOR, $paths);
-        $path = preg_replace(
-            '#' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . '+#',
-            DIRECTORY_SEPARATOR,
-            $path
-        );
+        $path = preg_replace('#' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . '+#', DIRECTORY_SEPARATOR, $path);
 
         return preg_replace('#([' . DIRECTORY_SEPARATOR . ']+$)#', '', $path);
     }
@@ -77,8 +73,8 @@ if (!function_exists('remove_invisible_characters')) {
      * This prevents sandwiching null characters
      * between ascii characters, like Java\0script.
      *
-     * @param string
-     * @param bool
+     * @param string $str
+     * @param bool   $url_encoded
      *
      * @return    string
      */

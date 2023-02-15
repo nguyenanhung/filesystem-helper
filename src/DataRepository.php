@@ -18,7 +18,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
      * @author    713uk13m <dev@nguyenanhung.com>
      * @copyright 713uk13m <dev@nguyenanhung.com>
      */
-    class DataRepository
+    class DataRepository extends BaseSystem
     {
         /**
          * Function getData - Hàm lấy nội dung config được quy định trong thư mục config
