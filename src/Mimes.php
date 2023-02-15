@@ -18,7 +18,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Mimes')) {
      * @author    713uk13m <dev@nguyenanhung.com>
      * @copyright 713uk13m <dev@nguyenanhung.com>
      */
-    class Mimes
+    class Mimes extends BaseSystem
     {
         /**
          * Function getMimes
@@ -49,12 +49,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Mimes')) {
         public static function getMimeByExtension($filename)
         {
             $mimes = static::getMimes();
-
             $extension = strtolower(substr(strrchr($filename, '.'), 1));
-
             if (isset($mimes[$extension])) {
-                return is_array($mimes[$extension])
-                    ? current($mimes[$extension]) // Multiple mime types, just give the first one
+                return is_array($mimes[$extension]) ? current($mimes[$extension]) // Multiple mime types, just give the first one
                     : $mimes[$extension];
             }
 

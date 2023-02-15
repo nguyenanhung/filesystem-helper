@@ -17,7 +17,7 @@ namespace nguyenanhung\Libraries\Filesystem;
  * @author    713uk13m <dev@nguyenanhung.com>
  * @copyright 713uk13m <dev@nguyenanhung.com>
  */
-class Console
+class Console extends BaseSystem
 {
     /**
      * Function writeLn

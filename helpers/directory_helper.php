@@ -258,10 +258,10 @@ if (!function_exists('directory_list')) {
     function directory_list($path, $absolute = false)
     {
         if (!directory_exists($path)) {
-            return [];
+            return array();
         }
 
-        $list = array_values(array_diff(scandir($path), ['.', '..']));
+        $list = array_values(array_diff(scandir($path), array('.', '..')));
 
         if ($absolute) {
             $list = array_map(static function ($item) use ($path) {

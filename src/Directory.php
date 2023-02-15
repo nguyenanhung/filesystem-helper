@@ -62,19 +62,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                         // implode it yar
                         $rel = implode(DIRECTORY_SEPARATOR, $diff);
                     } else {
-                        throw new InvalidArgumentException(
-                            __METHOD__ . "() expects parameter two, base path, to be a string"
-                        );
+                        throw new InvalidArgumentException(__METHOD__ . "() expects parameter two, base path, to be a string");
                     }
                 } else {
-                    throw new InvalidArgumentException(
-                        __METHOD__ . "() expects parameter one, absolute path, to be a string"
-                    );
+                    throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, absolute path, to be a string");
                 }
             } else {
-                throw new BadMethodCallException(
-                    __METHOD__ . "() expects two string parameters: absolute path and base path"
-                );
+                throw new BadMethodCallException(__METHOD__ . "() expects two string parameters: absolute path and base path");
             }
 
             return $rel;
@@ -154,17 +148,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                                                     // if the file is a dir
                                                     if (is_dir($source . DIRECTORY_SEPARATOR . $entity)) {
                                                         // recursively copy the dir
-                                                        $isSuccess = self::copy(
-                                                            $source . DIRECTORY_SEPARATOR . $entity,
-                                                            $destination . DIRECTORY_SEPARATOR . $entity,
-                                                            $mode
-                                                        );
+                                                        $isSuccess = self::copy($source . DIRECTORY_SEPARATOR . $entity, $destination . DIRECTORY_SEPARATOR . $entity, $mode);
                                                     } else {
                                                         // otherwise, just copy the file
-                                                        $isSuccess = copy(
-                                                            $source . DIRECTORY_SEPARATOR . $entity,
-                                                            $destination . DIRECTORY_SEPARATOR . $entity
-                                                        );
+                                                        $isSuccess = copy($source . DIRECTORY_SEPARATOR . $entity, $destination . DIRECTORY_SEPARATOR . $entity);
                                                     }
                                                     // if an error occurs, stop
                                                     if (!$isSuccess) {
@@ -183,45 +170,28 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                                             // close the source directory
                                             closedir($sourceDir);
                                         } else {
-                                            throw new InvalidArgumentException(
-                                                __METHOD__ . "() expects parameter two, destination, to be a writable directory"
-                                            );
+                                            throw new InvalidArgumentException(__METHOD__ . "() expects parameter two, destination, to be a writable directory");
                                         }
                                     } else {
-                                        throw new InvalidArgumentException(
-                                            __METHOD__ . "() expects parameter two, destination, to be an existing directory " .
-                                            "(or it expects parameter three, mode, to be an integer)"
-                                        );
+                                        throw new InvalidArgumentException(__METHOD__ . "() expects parameter two, destination, to be an existing directory " . "(or it expects parameter three, mode, to be an integer)");
                                     }
                                 } else {
-                                    throw new InvalidArgumentException(
-                                        __METHOD__ . "() expects parameter one, source, to be a readable directory"
-                                    );
+                                    throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, source, to be a readable directory");
                                 }
                             } else {
-                                throw new InvalidArgumentException(
-                                    __METHOD__ . "() expects parameter one, source, to be an existing directory"
-                                );
+                                throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, source, to be an existing directory");
                             }
                         } else {
-                            throw new InvalidArgumentException(
-                                __METHOD__ . "() expects parameter three, mode, to be an integer or false"
-                            );
+                            throw new InvalidArgumentException(__METHOD__ . "() expects parameter three, mode, to be an integer or false");
                         }
                     } else {
-                        throw new InvalidArgumentException(
-                            __METHOD__ . "() expects parameter two, destination, to be a string"
-                        );
+                        throw new InvalidArgumentException(__METHOD__ . "() expects parameter two, destination, to be a string");
                     }
                 } else {
-                    throw new InvalidArgumentException(
-                        __METHOD__ . "() expects parameter one, source, to be a string"
-                    );
+                    throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, source, to be a string");
                 }
             } else {
-                throw new BadMethodCallException(
-                    __METHOD__ . "() expects two or three parameters: source, destination, and mode"
-                );
+                throw new BadMethodCallException(__METHOD__ . "() expects two or three parameters: source, destination, and mode");
             }
 
             return $isSuccess;
@@ -297,10 +267,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                                             // if the entity is a sub-directory
                                             if (is_dir($directory . DIRECTORY_SEPARATOR . $entity)) {
                                                 // clear and delete the sub-directory
-                                                $isSuccess = self::remove(
-                                                    $directory . DIRECTORY_SEPARATOR . $entity,
-                                                    $container
-                                                );
+                                                $isSuccess = self::remove($directory . DIRECTORY_SEPARATOR . $entity, $container);
                                             } else {
                                                 // otheriwse, the entity is a file; delete it
                                                 $isSuccess = unlink($directory . DIRECTORY_SEPARATOR . $entity);
@@ -323,34 +290,22 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                                     closedir($dir);
                                     $isSuccess = rmdir($directory . DIRECTORY_SEPARATOR . $entity);
                                 } else {
-                                    throw new InvalidArgumentException(
-                                        __METHOD__ . "() expects parameter two, container, to contain the directory"
-                                    );
+                                    throw new InvalidArgumentException(__METHOD__ . "() expects parameter two, container, to contain the directory");
                                 }
                             } else {
-                                throw new InvalidArgumentException(
-                                    __METHOD__ . "() expects parameter one, directory, to be a writable directory"
-                                );
+                                throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, directory, to be a writable directory");
                             }
                         } else {
-                            throw new InvalidArgumentException(
-                                __METHOD__ . "() expects parameter one, directory, to be a valid directory"
-                            );
+                            throw new InvalidArgumentException(__METHOD__ . "() expects parameter one, directory, to be a valid directory");
                         }
                     } else {
-                        throw new InvalidArgumentException(
-                            __METHOD__ . "() expects the second parameter, container, to be a string"
-                        );
+                        throw new InvalidArgumentException(__METHOD__ . "() expects the second parameter, container, to be a string");
                     }
                 } else {
-                    throw new InvalidArgumentException(
-                        __METHOD__ . "() expects the first parameter, directory, to be a string"
-                    );
+                    throw new InvalidArgumentException(__METHOD__ . "() expects the first parameter, directory, to be a string");
                 }
             } else {
-                throw new BadMethodCallException(
-                    __METHOD__ . "() expects two string parameters, directory and container"
-                );
+                throw new BadMethodCallException(__METHOD__ . "() expects two string parameters, directory and container");
             }
 
             return $isSuccess;
@@ -402,18 +357,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                         return $startsWith;
                     }
 
-                    throw new InvalidArgumentException(
-                        __METHOD__ . " expects the second parameter, the needle, to be a string"
-                    );
+                    throw new InvalidArgumentException(__METHOD__ . " expects the second parameter, the needle, to be a string");
                 } else {
-                    throw new InvalidArgumentException(
-                        __METHOD__ . " expects the first parameter, the haystack, to be a string"
-                    );
+                    throw new InvalidArgumentException(__METHOD__ . " expects the first parameter, the haystack, to be a string");
                 }
             } else {
-                throw new BadMethodCallException(
-                    __METHOD__ . " expects two string parameters, haystack and needle"
-                );
+                throw new BadMethodCallException(__METHOD__ . " expects two string parameters, haystack and needle");
             }
         }
 
@@ -463,8 +412,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
         public static function directoryMap($source_dir, $directory_depth = 0, $hidden = false)
         {
             if ($fp = @opendir($source_dir)) {
-                $fileData   = array();
-                $newDepth   = $directory_depth - 1;
+                $fileData = array();
+                $newDepth = $directory_depth - 1;
                 $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
                 while (false !== ($file = readdir($fp))) {

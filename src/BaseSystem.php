@@ -1,32 +1,24 @@
 <?php
 /**
- * Project helpers-filesystem
+ * Project filesystem-helper
  * Created by PhpStorm
  * User: 713uk13m <dev@nguyenanhung.com>
  * Copyright: 713uk13m <dev@nguyenanhung.com>
- * Date: 08/08/2021
- * Time: 01:07
+ * Date: 15/02/2023
+ * Time: 20:24
  */
 
 namespace nguyenanhung\Libraries\Filesystem;
 
 /**
- * Trait Version
+ * Class BaseSystem
  *
  * @package   nguyenanhung\Libraries\Filesystem
  * @author    713uk13m <dev@nguyenanhung.com>
  * @copyright 713uk13m <dev@nguyenanhung.com>
  */
-trait Version
+class BaseSystem implements Environment
 {
-    /**
-     * Function getVersion
-     *
-     * @return string
-     * @author   : 713uk13m <dev@nguyenanhung.com>
-     * @copyright: 713uk13m <dev@nguyenanhung.com>
-     * @time     : 08/07/2021 07:03
-     */
     public function getVersion()
     {
         return self::VERSION;
