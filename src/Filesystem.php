@@ -26,10 +26,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
      * @author    713uk13m <dev@nguyenanhung.com>
      * @copyright 713uk13m <dev@nguyenanhung.com>
      */
-    class Filesystem extends SymfonyFilesystem implements Environment
+    class Filesystem extends SymfonyFilesystem
     {
-        use Version;
-
         /** @var null|array Mảng dữ liệu chứa các thuộc tính cần quét */
         private $scanInclude = ['*.log', '*.txt'];
 
@@ -115,19 +113,19 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         public function cleanLog(string $path = '', int $dayToDel = 3)
         {
             try {
-                $getDir             = $this->directoryScanner($path, $this->scanInclude, $this->scanExclude);
-                $result             = array();
+                $getDir = $this->directoryScanner($path, $this->scanInclude, $this->scanExclude);
+                $result = array();
                 $result['scanPath'] = $path;
                 foreach ($getDir as $fileName) {
                     $SplFileInfo = new SplFileInfo($fileName);
-                    $filename    = $SplFileInfo->getPathname();
-                    $format      = 'YmdHis';
+                    $filename = $SplFileInfo->getPathname();
+                    $format = 'YmdHis';
                     // Lấy thời gian xác định xóa fileName
-                    $dateTime   = new DateTime("-" . $dayToDel . " days");
+                    $dateTime = new DateTime("-" . $dayToDel . " days");
                     $deleteTime = $dateTime->format($format);
                     // Lấy modifyTime của file
                     $getFileTime = filemtime($filename);
-                    $fileTime    = date($format, $getFileTime);
+                    $fileTime = date($format, $getFileTime);
                     if ($fileTime < $deleteTime) {
                         $this->chmod($filename, 0777);
                         $this->remove($filename);
@@ -246,12 +244,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                 try {
                     $this->mkdir($pathname, $mode);
                     // Gen file Index.html + .htaccess
-                    $fileIndex           = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
-                    $fileReadme          = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
-                    $fileHtaccess        = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
-                    $fileContentIndex    = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
+                    $fileIndex = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
+                    $fileReadme = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
+                    $fileHtaccess = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
+                    $fileContentIndex = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
                     $fileContentHtaccess = "RewriteEngine On\nOptions -Indexes\nAddType text/plain php3 php4 php5 php cgi asp aspx html css js";
-                    $fileContentReadme   = "#" . $pathname . " README";
+                    $fileContentReadme = "#" . $pathname . " README";
 
                     $this->appendToFile($fileIndex, $fileContentIndex);
                     $this->appendToFile($fileReadme, $fileContentHtaccess);
@@ -281,7 +279,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @link    https://bugs.php.net/bug.php?id=54709
          *
-         * @param string
+         * @param string $file
          *
          * @return    bool
          */
@@ -419,9 +417,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * Reads the specified directory and builds an array containing the filenames.
          * Any sub-folders contained within the specified path are read as well.
          *
-         * @param string    path to source
-         * @param bool    whether to include the path as part of the filename
-         * @param bool    internal variable to determine recursion status - do not use in calls
+         * @param string $source_dir   path to source
+         * @param bool   $include_path whether to include the path as part of the filename
+         * @param bool   $_recursion   internal variable to determine recursion status - do not use in calls
          *
          * @return    array|bool
          */
@@ -432,7 +430,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             if ($fp = @opendir($source_dir)) {
                 // reset the array and make sure $source_dir has a trailing slash on the initial call
                 if ($_recursion === false) {
-                    $_fileData  = array();
+                    $_fileData = array();
                     $source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
                 }
 
@@ -460,9 +458,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * Any sub-folders contained within the specified path are read as well.
          *
-         * @param string    path to source
-         * @param bool    Look only at the top level directory specified?
-         * @param bool    internal variable to determine recursion status - do not use in calls
+         * @param string $source_dir     path to source
+         * @param bool   $top_level_only Look only at the top level directory specified?
+         * @param bool   $_recursion     internal variable to determine recursion status - do not use in calls
          *
          * @return    array|bool
          */
@@ -474,7 +472,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             if ($fp = @opendir($source_dir)) {
                 // reset the array and make sure $source_dir has a trailing slash on the initial call
                 if ($_recursion === false) {
-                    $_fileData  = array();
+                    $_fileData = array();
                     $source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
                 }
 
@@ -483,7 +481,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     if (is_dir($source_dir . $file) && $file[0] !== '.' && $top_level_only === false) {
                         self::getDirectoryFileInformation($source_dir . $file . DIRECTORY_SEPARATOR, $top_level_only, true);
                     } elseif ($file[0] !== '.') {
-                        $_fileData[$file]                  = $this->getFileInfo($source_dir . $file);
+                        $_fileData[$file] = $this->getFileInfo($source_dir . $file);
                         $_fileData[$file]['relative_path'] = $relative_path;
                     }
                 }
@@ -600,19 +598,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             }
 
             // Owner
-            $symbolic .= (($perms & 0x0100) ? 'r' : '-')
-                         . (($perms & 0x0080) ? 'w' : '-')
-                         . (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x') : (($perms & 0x0800) ? 'S' : '-'));
+            $symbolic .= (($perms & 0x0100) ? 'r' : '-') . (($perms & 0x0080) ? 'w' : '-') . (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x') : (($perms & 0x0800) ? 'S' : '-'));
 
             // Group
-            $symbolic .= (($perms & 0x0020) ? 'r' : '-')
-                         . (($perms & 0x0010) ? 'w' : '-')
-                         . (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x') : (($perms & 0x0400) ? 'S' : '-'));
+            $symbolic .= (($perms & 0x0020) ? 'r' : '-') . (($perms & 0x0010) ? 'w' : '-') . (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x') : (($perms & 0x0400) ? 'S' : '-'));
 
             // World
-            $symbolic .= (($perms & 0x0004) ? 'r' : '-')
-                         . (($perms & 0x0002) ? 'w' : '-')
-                         . (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x') : (($perms & 0x0200) ? 'T' : '-'));
+            $symbolic .= (($perms & 0x0004) ? 'r' : '-') . (($perms & 0x0002) ? 'w' : '-') . (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x') : (($perms & 0x0200) ? 'T' : '-'));
 
             return $symbolic;
         }
@@ -872,10 +864,25 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         public function sanitizeFilename(string $str, bool $relative_path = false): string
         {
             $bad = array(
-                '../', '<!--', '-->', '<', '>',
-                "'", '"', '&', '$', '#',
-                '{', '}', '[', ']', '=',
-                ';', '?', '%20', '%22',
+                '../',
+                '<!--',
+                '-->',
+                '<',
+                '>',
+                "'",
+                '"',
+                '&',
+                '$',
+                '#',
+                '{',
+                '}',
+                '[',
+                ']',
+                '=',
+                ';',
+                '?',
+                '%20',
+                '%22',
                 '%3c',        // <
                 '%253c',    // <
                 '%3e',        // >

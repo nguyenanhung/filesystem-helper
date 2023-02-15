@@ -229,7 +229,6 @@ if (!function_exists('directory_copy')) {
         }
     }
 }
-
 if (!function_exists('directory_clear')) {
     /**
      * Delete all files and directories inside a directory.
@@ -245,7 +244,6 @@ if (!function_exists('directory_clear')) {
         }
     }
 }
-
 if (!function_exists('directory_list')) {
     /**
      * Return a list of files and directories.
