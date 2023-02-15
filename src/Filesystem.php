@@ -242,11 +242,17 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $fileContentIndex = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
                     $fileContentHtaccess = "RewriteEngine On\nOptions -Indexes\nAddType text/plain php3 php4 php5 php cgi asp aspx html css js";
                     $fileContentReadme = "#" . $pathname . " README";
-
-                    $this->appendToFile($fileIndex, $fileContentIndex);
-                    $this->appendToFile($fileReadme, $fileContentHtaccess);
-                    $this->appendToFile($fileHtaccess, $fileContentReadme);
-
+                    if (method_exists($this, 'appendToFile')) {
+                        $this->appendToFile($fileIndex, $fileContentIndex);
+                        $this->appendToFile($fileReadme, $fileContentHtaccess);
+                        $this->appendToFile($fileHtaccess, $fileContentReadme);
+                    } else {
+                        if (method_exists($this, 'dumpFile')) {
+                            $this->dumpFile($fileIndex, $fileContentIndex);
+                            $this->dumpFile($fileReadme, $fileContentHtaccess);
+                            $this->dumpFile($fileHtaccess, $fileContentReadme);
+                        }
+                    }
                     return true;
                 } catch (Exception $e) {
                     if (function_exists('log_message')) {
