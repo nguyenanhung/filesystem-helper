@@ -253,6 +253,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                             $this->dumpFile($fileHtaccess, $fileContentReadme);
                         }
                     }
+
                     return true;
                 } catch (Exception $e) {
                     if (function_exists('log_message')) {
@@ -434,7 +435,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
                 while (false !== ($file = readdir($fp))) {
                     if (is_dir($source_dir . $file) && $file[0] !== '.') {
-                        self::getFilenames($source_dir . $file . DIRECTORY_SEPARATOR, $include_path, true);
+                        $this->getFilenames($source_dir . $file . DIRECTORY_SEPARATOR, $include_path, true);
                     } elseif ($file[0] !== '.') {
                         $_fileData[] = ($include_path === true) ? $source_dir . $file : $file;
                     }
@@ -477,7 +478,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                 // Used to be foreach (scandir($source_dir, 1) as $file), but scandir() is simply not as fast
                 while (false !== ($file = readdir($fp))) {
                     if (is_dir($source_dir . $file) && $file[0] !== '.' && $top_level_only === false) {
-                        self::getDirectoryFileInformation($source_dir . $file . DIRECTORY_SEPARATOR, $top_level_only, true);
+                        $this->getDirectoryFileInformation($source_dir . $file . DIRECTORY_SEPARATOR, $top_level_only, true);
                     } elseif ($file[0] !== '.') {
                         $_fileData[$file] = $this->getFileInfo($source_dir . $file);
                         $_fileData[$file]['relative_path'] = $relative_path;

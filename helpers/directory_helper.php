@@ -264,9 +264,12 @@ if (!function_exists('directory_list')) {
         $list = array_values(array_diff(scandir($path), array('.', '..')));
 
         if ($absolute) {
-            $list = array_map(static function ($item) use ($path) {
-                return string_to_path($path, $item);
-            }, $list);
+            $list = array_map(
+                static function ($item) use ($path) {
+                    return string_to_path($path, $item);
+                },
+                $list
+            );
         }
 
         return $list;
