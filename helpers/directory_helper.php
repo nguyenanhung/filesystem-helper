@@ -286,18 +286,8 @@ if (!function_exists('directory_list')) {
             if (!directory_exists($path)) {
                 return array();
             }
-            $list = array_values(array_diff(scandir($path), array('.', '..')));
 
-            if ($absolute) {
-                $list = array_map(
-                    static function($item) use ($path) {
-                        return string_to_path($path, $item);
-                    },
-                    $list
-                );
-            }
-
-            return $list;
+            return array_values(array_diff(scandir($path), array('.', '..')));
         }
     }
 }
@@ -315,18 +305,7 @@ if (!function_exists('directory_list_files')) {
         if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
-            return array_values(
-                array_filter(
-                    directory_list($path, $absolute),
-                    static function($item) use ($path, $absolute) {
-                        if (!$absolute) {
-                            $item = string_to_path($path, $item);
-                        }
-
-                    return is_file($item);
-                    }
-                )
-            );
+            return directory_list($path,$absolute);
         }
     }
 }
@@ -347,18 +326,7 @@ if (!function_exists('directory_list_directories')) {
         if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
-            return array_values(
-                array_filter(
-                    directory_list($path, $absolute),
-                    static function($item) use ($path, $absolute) {
-                        if (!$absolute) {
-                            $item = string_to_path($path, $item);
-                        }
-
-                        return is_dir($item);
-                    }
-                )
-            );
+            return directory_list($path,$absolute);
         }
     }
 }
