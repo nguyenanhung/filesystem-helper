@@ -10,9 +10,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $tmpPath = __DIR__ . '/../tmp/';
-echo PHP_VERSION_ID . PHP_EOL;die;
 echo "Helper create_new_folder -> Result: " . create_new_folder($tmpPath . '/create_new_folder') . PHP_EOL;
-// echo "Helper directory_list_files -> Result: " . json_encode(directory_list_files($tmpPath)) . PHP_EOL;
+echo "Helper directory_list_files -> Result: " . json_encode(directory_list_files($tmpPath)) . PHP_EOL;
 echo "Helper file_create -> Result: " . file_create($tmpPath . '/test/test-file.txt') . PHP_EOL;
 echo "Helper file_append -> Result: " . file_append($tmpPath . '/test/test-file.txt', 'Push Test content') . PHP_EOL;
 echo "Helper file_read -> Result: " . file_read($tmpPath . '/test/test-file.txt') . PHP_EOL;
