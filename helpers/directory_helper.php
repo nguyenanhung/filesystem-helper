@@ -280,7 +280,7 @@ if (!function_exists('directory_list')) {
      */
     function directory_list($path, $absolute = false)
     {
-        if (is_php_before('5.4')) {
+        if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
             if (!directory_exists($path)) {
@@ -310,7 +310,7 @@ if (!function_exists('directory_list_files')) {
      */
     function directory_list_files($path, $absolute = false)
     {
-        if (is_php_before('5.4')) {
+        if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
             return array_values(array_filter(directory_list($path, $absolute), static function($item) use ($path, $absolute) {
@@ -338,7 +338,7 @@ if (!function_exists('directory_list_directories')) {
      */
     function directory_list_directories($path, $absolute = false)
     {
-        if (is_php_before('5.4')) {
+        if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
             return array_values(array_filter(directory_list($path, $absolute), static function($item) use ($path, $absolute) {
