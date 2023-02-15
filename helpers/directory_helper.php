@@ -37,8 +37,8 @@ if (!function_exists('directory_map')) {
     function directory_map($source_dir, $directory_depth = 0, $hidden = false)
     {
         if ($fp = @opendir($source_dir)) {
-            $fileData   = array();
-            $newDepth   = $directory_depth - 1;
+            $fileData = array();
+            $newDepth = $directory_depth - 1;
             $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
             while (false !== ($file = readdir($fp))) {
@@ -244,29 +244,31 @@ if (!function_exists('directory_clear')) {
         }
     }
 }
-function dirList ($directory) {
-    // create an array to hold directory list
-    $results = array();
+if (!function_exists('directory_list_php_53')) {
+    function directory_list_php_53($directory)
+    {
+        // create an array to hold directory list
+        $results = array();
 
-    // create a handler for the directory
-    $handler = opendir($directory);
+        // create a handler for the directory
+        $handler = opendir($directory);
 
-    // keep going until all files in directory have been read
-    while ($file = readdir($handler)) {
+        // keep going until all files in directory have been read
+        while ($file = readdir($handler)) {
 
-        // if $file isn't this directory or its parent,
-        // add it to the results array
-        if ($file != '.' && $file != '..')
-            $results[] = $file;
+            // if $file isn't this directory or its parent,
+            // add it to the results array
+            if ($file != '.' && $file != '..')
+                $results[] = $file;
+        }
+
+        // tidy up: close the handler
+        closedir($handler);
+
+        // done!
+        return $results;
     }
-
-    // tidy up: close the handler
-    closedir($handler);
-
-    // done!
-    return $results;
 }
-
 if (!function_exists('directory_list')) {
     /**
      * Return a list of files and directories.
@@ -278,7 +280,22 @@ if (!function_exists('directory_list')) {
      */
     function directory_list($path, $absolute = false)
     {
-        return  dirList($path);
+        if (version_compare(PHP_VERSION, '5.4', '<')) {
+            return directory_list_php_53($path);
+        }
+
+        if (!directory_exists($path)) {
+            return array();
+        }
+        $list = array_values(array_diff(scandir($path), array('.', '..')));
+
+        if ($absolute) {
+            $list = array_map(static function ($item) use ($path) {
+                return string_to_path($path, $item);
+            }, $list);
+        }
+
+        return $list;
     }
 }
 
@@ -293,7 +310,21 @@ if (!function_exists('directory_list_files')) {
      */
     function directory_list_files($path, $absolute = false)
     {
-        return  dirList($path);
+        if (version_compare(PHP_VERSION, '5.4', '<')) {
+            return directory_list_php_53($path);
+        }
+        return array_values(
+            array_filter(
+                directory_list($path, $absolute),
+                static function ($item) use ($path, $absolute) {
+                    if (!$absolute) {
+                        $item = string_to_path($path, $item);
+                    }
+
+                    return is_file($item);
+                }
+            )
+        );
     }
 }
 
@@ -311,6 +342,20 @@ if (!function_exists('directory_list_directories')) {
      */
     function directory_list_directories($path, $absolute = false)
     {
-        return  dirList($path);
+        if (version_compare(PHP_VERSION, '5.4', '<')) {
+            return directory_list_php_53($path);
+        }
+        return array_values(
+            array_filter(
+                directory_list($path, $absolute),
+                static function ($item) use ($path, $absolute) {
+                    if (!$absolute) {
+                        $item = string_to_path($path, $item);
+                    }
+
+                    return is_dir($item);
+                }
+            )
+        );
     }
 }

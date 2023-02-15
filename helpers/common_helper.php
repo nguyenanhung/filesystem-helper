@@ -27,6 +27,26 @@ if (!function_exists('is_php')) {
         return $_is_php[$version];
     }
 }
+if (!function_exists('is_php_before')) {
+    /**
+     * Determines if the current version of PHP is equal to or greater than the supplied value
+     *
+     * @param string $version
+     *
+     * @return    bool    TRUE if the current version is $version or higher
+     */
+    function is_php_before($version)
+    {
+        static $_is_php;
+        $version = (string) $version;
+
+        if (!isset($_is_php[$version])) {
+            $_is_php[$version] = version_compare(PHP_VERSION, $version, '<');
+        }
+
+        return $_is_php[$version];
+    }
+}
 if (!function_exists('stringToPath')) {
     /**
      * Function stringToPath - Combine multiple strings to a path.
