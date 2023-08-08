@@ -354,8 +354,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
             flock($fp, LOCK_EX);
 
-            for ($result = $written = 0, $length = strlen($data); $written < $length; $written += $result) {
-                if (($result = fwrite($fp, substr($data, $written))) === false) {
+            for ($result = $written = 0, $length = mb_strlen($data); $written < $length; $written += $result) {
+                if (($result = fwrite($fp, mb_substr($data, $written))) === false) {
                     break;
                 }
             }
@@ -621,7 +621,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          */
         public function octalPermissions(int $perms): string
         {
-            return substr(sprintf('%o', $perms), -3);
+            return mb_substr(sprintf('%o', $perms), -3);
         }
 
         /**

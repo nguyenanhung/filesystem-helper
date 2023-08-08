@@ -50,7 +50,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Mimes')) {
         {
             $mimes = static::getMimes();
 
-            $extension = strtolower(substr(strrchr($filename, '.'), 1));
+            $extension = mb_strtolower(mb_substr(mb_strrchr($filename, '.'), 1));
 
             if (isset($mimes[$extension])) {
                 return is_array($mimes[$extension]) ? current($mimes[$extension]) // Multiple mime types, just give the first one
