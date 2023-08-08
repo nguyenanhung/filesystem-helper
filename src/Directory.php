@@ -349,7 +349,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Directory')) {
                         // if $haystack is not empty
                         // if $needle is not empty
                         if (($haystack !== '') && $needle !== '') {
-                            $startsWith = !strncmp($haystack, $needle, strlen($needle));
+                            $startsWith = !strncmp($haystack, $needle, mb_strlen($needle));
                         } else {
                             $startsWith = false;
                         }
