@@ -19,21 +19,21 @@ namespace nguyenanhung\Libraries\Filesystem;
  */
 class Console extends BaseSystem
 {
-    /**
-     * Function writeLn
-     *
-     * @param        $message
-     * @param string $newLine
-     *
-     * @author   : 713uk13m <dev@nguyenanhung.com>
-     * @copyright: 713uk13m <dev@nguyenanhung.com>
-     * @time     : 09/24/2021 11:45
-     */
-    public static function writeLn($message, string $newLine = "\n")
-    {
-        if (function_exists('json_encode') && (is_array($message) || is_object($message))) {
-            $message = json_encode($message);
-        }
-        echo $message . $newLine;
-    }
+	/**
+	 * Function writeLn
+	 *
+	 * @param        $message
+	 * @param string $newLine
+	 *
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 09/24/2021 11:45
+	 */
+	public static function writeLn($message, string $newLine = "\n")
+	{
+		if (function_exists('json_encode') && (is_array($message) || is_object($message))) {
+			$message = json_encode($message);
+		}
+		echo $message . $newLine;
+	}
 }
