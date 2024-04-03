@@ -12,8 +12,8 @@ namespace nguyenanhung\Libraries\Filesystem;
 
 class BaseSystem implements Environment
 {
-    public function getVersion(): string
-    {
-        return self::VERSION;
-    }
+	public function getVersion(): string
+	{
+		return self::VERSION;
+	}
 }
