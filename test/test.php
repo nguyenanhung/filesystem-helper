@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project helpers-filesystem
  * Created by PhpStorm

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project helpers-files
  * Created by PhpStorm
@@ -18,7 +19,7 @@ if (!function_exists('is_php')) {
     function is_php($version)
     {
         static $_is_php;
-        $version = (string) $version;
+        $version = (string)$version;
 
         if (!isset($_is_php[$version])) {
             $_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
@@ -38,7 +39,7 @@ if (!function_exists('is_php_before')) {
     function is_php_before($version)
     {
         static $_is_php;
-        $version = (string) $version;
+        $version = (string)$version;
 
         if (!isset($_is_php[$version])) {
             $_is_php[$version] = version_compare(PHP_VERSION, $version, '<=');
@@ -94,7 +95,7 @@ if (!function_exists('remove_invisible_characters')) {
      * between ascii characters, like Java\0script.
      *
      * @param string $str
-     * @param bool   $url_encoded
+     * @param bool $url_encoded
      *
      * @return    string
      */
@@ -111,8 +112,7 @@ if (!function_exists('remove_invisible_characters')) {
         $nonDisplay[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';    // 00-08, 11, 12, 14-31, 127
         do {
             $str = preg_replace($nonDisplay, '', $str, -1, $count);
-        }
-        while ($count);
+        } while ($count);
 
         return $str;
     }

@@ -7,6 +7,7 @@
  * Date: 08/08/2021
  * Time: 22:29
  */
+
 /**
  * CodeIgniter Directory Helpers
  *
@@ -27,10 +28,10 @@ if (!function_exists('directory_map')) {
      * representation of it. Sub-folders contained with the
      * directory will be mapped as well.
      *
-     * @param string $source_dir      Path to source
-     * @param int    $directory_depth Depth of directories to traverse
+     * @param string $source_dir Path to source
+     * @param int $directory_depth Depth of directories to traverse
      *                                (0 = fully recursive, 1 = current dir, etc)
-     * @param bool   $hidden          Whether to show hidden files
+     * @param bool $hidden Whether to show hidden files
      *
      * @return    array|bool
      */
@@ -255,11 +256,11 @@ if (!function_exists('directory_list_php_53')) {
 
         // keep going until all files in directory have been read
         while ($file = readdir($handler)) {
-
             // if $file isn't this directory or its parent,
             // add it to the results array
-            if ($file != '.' && $file != '..')
+            if ($file != '.' && $file != '..') {
                 $results[] = $file;
+            }
         }
 
         // tidy up: close the handler
@@ -305,7 +306,7 @@ if (!function_exists('directory_list_files')) {
         if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
-            return directory_list($path,$absolute);
+            return directory_list($path, $absolute);
         }
     }
 }
@@ -326,7 +327,7 @@ if (!function_exists('directory_list_directories')) {
         if (PHP_VERSION_ID < 50400) {
             return directory_list_php_53($path);
         } else {
-            return directory_list($path,$absolute);
+            return directory_list($path, $absolute);
         }
     }
 }

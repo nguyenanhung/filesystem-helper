@@ -36,10 +36,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Function setInclude
          *
+         * @param array $include
          * @author: 713uk13m <dev@nguyenanhung.com>
          * @time  : 10/17/18 10:23
          *
-         * @param array $include
          */
         public function setInclude($include = array())
         {
@@ -49,10 +49,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Function setExclude
          *
+         * @param array $exclude
          * @author: 713uk13m <dev@nguyenanhung.com>
          * @time  : 10/17/18 10:23
          *
-         * @param array $exclude
          */
         public function setExclude($exclude = array())
         {
@@ -62,16 +62,16 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Hàm quét thư mục và list ra danh sách các file con
          *
-         * @author: 713uk13m <dev@nguyenanhung.com>
-         * @time  : 10/17/18 10:19
-         *
-         * @param string     $path     Đường dẫn thư mục cần quét, VD: /your/to/path
+         * @param string $path Đường dẫn thư mục cần quét, VD: /your/to/path
          * @param null|array $includes Mảng dữ liệu chứa các thuộc tính cần quét
          * @param null|array $excludes Mảng dữ liệu chứa các thuộc tính bỏ qua không quét
          *
+         * @return \Iterator
          * @see   https://github.com/theseer/DirectoryScanner/blob/master/samples/sample.php
          *
-         * @return \Iterator
+         * @author: 713uk13m <dev@nguyenanhung.com>
+         * @time  : 10/17/18 10:19
+         *
          */
         public function directoryScanner($path = '', $includes = null, $excludes = null)
         {
@@ -93,13 +93,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Hàm xóa các file Log được chỉ định
          *
+         * @param string $path Thư mục cần quét và xóa
+         * @param int $dayToDel Số ngày cần giữ lại file
+         *
+         * @return array Mảng thông tin về các file đã xóa
          * @author: 713uk13m <dev@nguyenanhung.com>
          * @time  : 10/17/18 10:21
          *
-         * @param string $path     Thư mục cần quét và xóa
-         * @param int    $dayToDel Số ngày cần giữ lại file
-         *
-         * @return array Mảng thông tin về các file đã xóa
          */
         public function cleanLog($path = '', $dayToDel = 3)
         {
@@ -139,13 +139,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Hàm xóa các file Log được chỉ định
          *
+         * @param string $path Thư mục cần quét và xóa
+         * @param int $dayToDel Số ngày cần giữ lại file
+         *
+         * @return array Mảng thông tin về các file đã xóa
          * @author: 713uk13m <dev@nguyenanhung.com>
          * @time  : 10/17/18 10:21
          *
-         * @param string $path     Thư mục cần quét và xóa
-         * @param int    $dayToDel Số ngày cần giữ lại file
-         *
-         * @return array Mảng thông tin về các file đã xóa
          */
         public function removeLog($path = '', $dayToDel = 3)
         {
@@ -164,8 +164,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Hàm quét và xoá các file Log từ 1 mảng chỉ định
          *
-         * @param array $listFolder  Mảng chứa dữ liệu các folder cần quét
-         * @param int   $dayToDelete Số ngày cần lưu giữ
+         * @param array $listFolder Mảng chứa dữ liệu các folder cần quét
+         * @param int $dayToDelete Số ngày cần lưu giữ
          *
          * @author   : 713uk13m <dev@nguyenanhung.com>
          * @copyright: 713uk13m <dev@nguyenanhung.com>
@@ -217,7 +217,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * Function createNewFolder - Create new folder and put 3 files: index.html, .htaccess and README.md
          *
          * @param string $pathname
-         * @param int    $mode
+         * @param int $mode
          *
          * @return bool
          * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -373,10 +373,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * If the second parameter is set to TRUE, any directories contained
          * within the supplied base directory will be nuked as well.
          *
-         * @param string $path    File path
-         * @param bool   $del_dir Whether to delete any directories found in the path
-         * @param bool   $htdocs  Whether to skip deleting .htaccess and index page files
-         * @param int    $_level  Current directory depth level (default: 0; internal use only)
+         * @param string $path File path
+         * @param bool $del_dir Whether to delete any directories found in the path
+         * @param bool $htdocs Whether to skip deleting .htaccess and index page files
+         * @param int $_level Current directory depth level (default: 0; internal use only)
          *
          * @return    bool
          */
@@ -395,7 +395,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
 
                     if (is_dir($filepath) && $filename[0] !== '.' && !is_link($filepath)) {
                         delete_files($filepath, $del_dir, $htdocs, $_level + 1);
-                    } elseif ($htdocs !== true or !preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename)) {
+                    } elseif ($htdocs !== true or !preg_match(
+                            '/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i',
+                            $filename
+                        )) {
                         @unlink($filepath);
                     }
                 }
@@ -416,9 +419,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * Reads the specified directory and builds an array containing the filenames.
          * Any sub-folders contained within the specified path are read as well.
          *
-         * @param string $source_dir   path to source
-         * @param bool   $include_path whether to include the path as part of the filename
-         * @param bool   $_recursion   internal variable to determine recursion status - do not use in calls
+         * @param string $source_dir path to source
+         * @param bool $include_path whether to include the path as part of the filename
+         * @param bool $_recursion internal variable to determine recursion status - do not use in calls
          *
          * @return    array|bool
          */
@@ -457,9 +460,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * Any sub-folders contained within the specified path are read as well.
          *
-         * @param string $source_dir     path to source
-         * @param bool   $top_level_only Look only at the top level directory specified?
-         * @param bool   $_recursion     internal variable to determine recursion status - do not use in calls
+         * @param string $source_dir path to source
+         * @param bool $top_level_only Look only at the top level directory specified?
+         * @param bool $_recursion internal variable to determine recursion status - do not use in calls
          *
          * @return    array|bool
          */
@@ -478,7 +481,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                 // Used to be foreach (scandir($source_dir, 1) as $file), but scandir() is simply not as fast
                 while (false !== ($file = readdir($fp))) {
                     if (is_dir($source_dir . $file) && $file[0] !== '.' && $top_level_only === false) {
-                        $this->getDirectoryFileInformation($source_dir . $file . DIRECTORY_SEPARATOR, $top_level_only, true);
+                        $this->getDirectoryFileInformation(
+                            $source_dir . $file . DIRECTORY_SEPARATOR,
+                            $top_level_only,
+                            true
+                        );
                     } elseif ($file[0] !== '.') {
                         $_fileData[$file] = $this->getFileInfo($source_dir . $file);
                         $_fileData[$file]['relative_path'] = $relative_path;
@@ -501,8 +508,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * Options are: name, server_path, size, date, readable, writable, executable, fileperms
          * Returns FALSE if the file cannot be found.
          *
-         * @param string $file            path to file
-         * @param mixed  $returned_values array or comma separated string of information returned
+         * @param string $file path to file
+         * @param mixed $returned_values array or comma separated string of information returned
          *
          * @return array|false
          */
@@ -568,7 +575,9 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             $extension = strtolower(substr(strrchr($filename, '.'), 1));
 
             if (isset($mimes[$extension])) {
-                return is_array($mimes[$extension]) ? current($mimes[$extension]) // Multiple mime types, just give the first one
+                return is_array($mimes[$extension]) ? current(
+                    $mimes[$extension]
+                ) // Multiple mime types, just give the first one
                     : $mimes[$extension];
             }
 
@@ -864,8 +873,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
         /**
          * Sanitize Filename
          *
-         * @param string $str           Input file name
-         * @param bool   $relative_path Whether to preserve paths
+         * @param string $str Input file name
+         * @param bool $relative_path Whether to preserve paths
          *
          * @return    string
          */
@@ -915,8 +924,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             do {
                 $old = $str;
                 $str = str_replace($bad, '', $str);
-            }
-            while ($old !== $str);
+            } while ($old !== $str);
 
             return stripslashes($str);
         }

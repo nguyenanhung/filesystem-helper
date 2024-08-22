@@ -19,12 +19,12 @@ namespace nguyenanhung\Libraries\Filesystem;
  */
 interface Environment
 {
-    const VERSION       = '1.0.6';
-    const LAST_MODIFIED = '2023-02-15';
-    const AUTHOR_NAME   = 'Hung Nguyen';
-    const AUTHOR_EMAIL  = 'dev@nguyenanhung.com';
-    const AUTHOR_URL    = 'https://nguyenanhung.com';
-    const PROJECT_NAME  = 'Helpers - Filesystem';
+    const VERSION = '1.0.7';
+    const LAST_MODIFIED = '2023-08-22';
+    const AUTHOR_NAME = 'Hung Nguyen';
+    const AUTHOR_EMAIL = 'dev@nguyenanhung.com';
+    const AUTHOR_URL = 'https://nguyenanhung.com';
+    const PROJECT_NAME = 'Helpers - Filesystem';
 
     /**
      * Function getVersion

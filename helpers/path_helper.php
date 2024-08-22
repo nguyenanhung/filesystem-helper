@@ -7,6 +7,7 @@
  * Date: 08/08/2021
  * Time: 22:31
  */
+
 /**
  * CodeIgniter Path Helpers
  *
@@ -24,14 +25,17 @@ if (!function_exists('set_realpath')) {
      * Set Realpath
      *
      * @param string $path
-     * @param bool   $checkExistance checks to see if the path exists
+     * @param bool $checkExistance checks to see if the path exists
      *
      * @return    string
      */
     function set_realpath($path, $checkExistance = false)
     {
         // Security check to make sure the path is NOT a URL. No remote file inclusion!
-        if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|php:\/\/)#i', $path) or filter_var($path, FILTER_VALIDATE_IP) === $path) {
+        if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|php:\/\/)#i', $path) or filter_var(
+                $path,
+                FILTER_VALIDATE_IP
+            ) === $path) {
             return 'The path you submitted must be a local server path, not a URL';
         }
 

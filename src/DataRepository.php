@@ -43,12 +43,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\DataRepository')) {
         /**
          * Hàm lấy nội dung Data từ 1 file bất kỳ trong hệ thống
          *
-         * @author: 713uk13m <dev@nguyenanhung.com>
-         * @time  : 10/17/18 09:25
-         *
          * @param string $filename Đường dẫn file config
          *
          * @return array|mixed
+         * @author: 713uk13m <dev@nguyenanhung.com>
+         * @time  : 10/17/18 09:25
+         *
          */
         public static function getDataContent($filename)
         {
