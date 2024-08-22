@@ -4,7 +4,7 @@ namespace nguyenanhung\Libraries\Filesystem\HeroDoc;
 
 class DefaultHeroDocTemplates
 {
-    public static function htaccess_deny_all(): string
+    public static function htaccess_deny_all()
     {
         return <<<HTACCESS
 Options -Indexes
@@ -19,7 +19,7 @@ AddType text/plain .php3 .php4 .php5 .php .cgi .asp .aspx .html .css .js
 HTACCESS;
     }
 
-    public static function nginx_index_html(): string
+    public static function nginx_index_html()
     {
         return <<<NGINX_INDEX_HTML
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ HTACCESS;
 NGINX_INDEX_HTML;
     }
 
-    public static function default_403_simple_html(): string
+    public static function default_403_simple_html()
     {
         return <<<NGINX_INDEX_HTML
 <!DOCTYPE html>
@@ -61,7 +61,7 @@ NGINX_INDEX_HTML;
 NGINX_INDEX_HTML;
     }
 
-    public static function default_403_html(): string
+    public static function default_403_html()
     {
         return <<<HTML
 <!DOCTYPE html>
@@ -145,7 +145,7 @@ NGINX_INDEX_HTML;
 HTML;
     }
 
-    public static function default_404_html(): string
+    public static function default_404_html()
     {
         return <<<HTML
 <!DOCTYPE html>
@@ -678,7 +678,7 @@ HTML;
 HTML;
     }
 
-    public static function default_coming_soon_html(): string
+    public static function default_coming_soon_html()
     {
         return <<<HTML
 
