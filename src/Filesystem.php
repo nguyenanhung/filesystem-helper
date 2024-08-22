@@ -240,7 +240,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $fileIndex = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
                     $fileReadme = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
                     $fileHtaccess = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
-                    $fileContentReadme = "#" . $pathname . " README";
+                    $fileContentReadme = "# " . basename($pathname) . " README";
                     if (method_exists($this, 'appendToFile')) {
                         $this->appendToFile($fileIndex, DefaultHeroDocTemplates::default_403_simple_html());
                         $this->appendToFile($fileHtaccess, DefaultHeroDocTemplates::htaccess_deny_all());
