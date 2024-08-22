@@ -17,6 +17,7 @@ use Iterator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use TheSeer\DirectoryScanner\DirectoryScanner;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use nguyenanhung\Libraries\Filesystem\HeroDoc\DefaultHeroDocTemplates;
 
 if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
     /**
@@ -232,7 +233,7 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 32:15
          */
-        public function createNewFolder(string $pathname = '', int $mode = 0777): bool
+        public function createNewFolder(string $pathname = '', int $mode = 0755): bool
         {
             if (empty($pathname)) {
                 return false;
@@ -247,13 +248,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $fileIndex = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
                     $fileReadme = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
                     $fileHtaccess = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
-                    $fileContentIndex = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
-                    $fileContentHtaccess = "RewriteEngine On\nOptions -Indexes\nAddType text/plain php3 php4 php5 php cgi asp aspx html css js";
                     $fileContentReadme = "#" . $pathname . " README";
 
-                    $this->appendToFile($fileIndex, $fileContentIndex);
-                    $this->appendToFile($fileReadme, $fileContentHtaccess);
-                    $this->appendToFile($fileHtaccess, $fileContentReadme);
+                    $this->appendToFile($fileIndex, DefaultHeroDocTemplates::default_403_simple_html());
+                    $this->appendToFile($fileReadme, $fileContentReadme);
+                    $this->appendToFile($fileHtaccess, DefaultHeroDocTemplates::htaccess_deny_all());
 
                     return true;
                 } catch (Exception $e) {
@@ -262,7 +261,6 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                         log_message('error', 'Error Message: ' . $e->getMessage());
                         log_message('error', 'Error Trace As String: ' . $e->getTraceAsString());
                     }
-
                     return false;
                 }
             }

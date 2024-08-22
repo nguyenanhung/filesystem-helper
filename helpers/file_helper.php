@@ -661,7 +661,7 @@ if (!function_exists('create_new_folder')) {
      * @copyright: 713uk13m <dev@nguyenanhung.com>
      * @time     : 08/18/2021 35:49
      */
-    function create_new_folder(string $pathname = '', int $mode = 0777): bool
+    function create_new_folder(string $pathname = '', int $mode = 0755): bool
     {
         return (new Filesystem())->createNewFolder($pathname, $mode);
     }
