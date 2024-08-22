@@ -19,20 +19,20 @@ namespace nguyenanhung\Libraries\Filesystem;
  */
 interface Environment
 {
-	const VERSION = '2.0.5';
-	const LAST_MODIFIED = '2024-04-03';
-	const AUTHOR_NAME = 'Hung Nguyen';
-	const AUTHOR_EMAIL = 'dev@nguyenanhung.com';
-	const AUTHOR_URL = 'https://nguyenanhung.com';
-	const PROJECT_NAME = 'Helpers - Filesystem';
+    const VERSION = '2.0.6';
+    const LAST_MODIFIED = '2024-08-22';
+    const AUTHOR_NAME = 'Hung Nguyen';
+    const AUTHOR_EMAIL = 'dev@nguyenanhung.com';
+    const AUTHOR_URL = 'https://github.com/nguyenanhung';
+    const PROJECT_NAME = 'Helpers - Filesystem';
 
-	/**
-	 * Function getVersion
-	 *
-	 * @return mixed
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 07/06/2021 44:19
-	 */
-	public function getVersion();
+    /**
+     * Function getVersion
+     *
+     * @return mixed
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 07/06/2021 44:19
+     */
+    public function getVersion();
 }

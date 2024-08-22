@@ -7,6 +7,7 @@
  * Date: 08/08/2021
  * Time: 22:29
  */
+
 /**
  * CodeIgniter Directory Helpers
  *
@@ -20,308 +21,308 @@
 // ------------------------------------------------------------------------
 
 if (!function_exists('directory_map')) {
-	/**
-	 * Create a Directory Map
-	 *
-	 * Reads the specified directory and builds an array
-	 * representation of it. Sub-folders contained with the
-	 * directory will be mapped as well.
-	 *
-	 * @param string $source_dir Path to source
-	 * @param int $directory_depth Depth of directories to traverse
-	 *                                (0 = fully recursive, 1 = current dir, etc)
-	 * @param bool $hidden Whether to show hidden files
-	 *
-	 * @return    array|bool
-	 */
-	function directory_map(string $source_dir, int $directory_depth = 0, bool $hidden = false)
-	{
-		if ($fp = @opendir($source_dir)) {
-			$fileData = array();
-			$newDepth = $directory_depth - 1;
-			$source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    /**
+     * Create a Directory Map
+     *
+     * Reads the specified directory and builds an array
+     * representation of it. Sub-folders contained with the
+     * directory will be mapped as well.
+     *
+     * @param string $source_dir Path to source
+     * @param int $directory_depth Depth of directories to traverse
+     *                                (0 = fully recursive, 1 = current dir, etc)
+     * @param bool $hidden Whether to show hidden files
+     *
+     * @return    array|bool
+     */
+    function directory_map(string $source_dir, int $directory_depth = 0, bool $hidden = false)
+    {
+        if ($fp = @opendir($source_dir)) {
+            $fileData = array();
+            $newDepth = $directory_depth - 1;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-			while (false !== ($file = readdir($fp))) {
-				// Remove '.', '..', and hidden files [optional]
-				if ($file === '.' || $file === '..' || ($hidden === false && $file[0] === '.')) {
-					continue;
-				}
+            while (false !== ($file = readdir($fp))) {
+                // Remove '.', '..', and hidden files [optional]
+                if ($file === '.' || $file === '..' || ($hidden === false && $file[0] === '.')) {
+                    continue;
+                }
 
-				is_dir($source_dir . $file) && $file .= DIRECTORY_SEPARATOR;
+                is_dir($source_dir . $file) && $file .= DIRECTORY_SEPARATOR;
 
-				if (($directory_depth < 1 || $newDepth > 0) && is_dir($source_dir . $file)) {
-					$fileData[$file] = directory_map($source_dir . $file, $newDepth, $hidden);
-				} else {
-					$fileData[] = $file;
-				}
-			}
+                if (($directory_depth < 1 || $newDepth > 0) && is_dir($source_dir . $file)) {
+                    $fileData[$file] = directory_map($source_dir . $file, $newDepth, $hidden);
+                } else {
+                    $fileData[] = $file;
+                }
+            }
 
-			closedir($fp);
+            closedir($fp);
 
-			return $fileData;
-		}
+            return $fileData;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }
 
 if (!function_exists('directory_get_name')) {
-	/**
-	 * Function directory_get_name
-	 *
-	 * @param $path
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/08/2021 52:48
-	 */
-	function directory_get_name($path): string
-	{
-		return basename($path);
-	}
+    /**
+     * Function directory_get_name
+     *
+     * @param $path
+     *
+     * @return string
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 08/08/2021 52:48
+     */
+    function directory_get_name($path): string
+    {
+        return basename($path);
+    }
 }
 
 if (!function_exists('directory_get_parent')) {
-	/**
-	 * Function directory_get_parent
-	 *
-	 * @param $path
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/08/2021 52:51
-	 */
-	function directory_get_parent($path): string
-	{
-		return dirname($path);
-	}
+    /**
+     * Function directory_get_parent
+     *
+     * @param $path
+     *
+     * @return string
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 08/08/2021 52:51
+     */
+    function directory_get_parent($path): string
+    {
+        return dirname($path);
+    }
 }
 
 if (!function_exists('directory_create')) {
-	/**
-	 * Create a directory and all subdirectories.
-	 *
-	 * @param     $path
-	 * @param int $mode
-	 *
-	 * @return bool
-	 */
-	function directory_create($path, int $mode = 0777): bool
-	{
-		if (!directory_exists($path)) {
-			return mkdir($path, $mode, true);
-		}
+    /**
+     * Create a directory and all subdirectories.
+     *
+     * @param     $path
+     * @param int $mode
+     *
+     * @return bool
+     */
+    function directory_create($path, int $mode = 0777): bool
+    {
+        if (!directory_exists($path)) {
+            return mkdir($path, $mode, true);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }
 
 if (!function_exists('directory_delete')) {
-	/**
-	 * Delete a directory and all of its files.
-	 *
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-	function directory_delete($path): bool
-	{
-		if (directory_exists($path)) {
-			$files = directory_list($path);
+    /**
+     * Delete a directory and all of its files.
+     *
+     * @param $path
+     *
+     * @return bool
+     */
+    function directory_delete($path): bool
+    {
+        if (directory_exists($path)) {
+            $files = directory_list($path);
 
-			foreach ($files as $file) {
-				$filePath = string_to_path($path, $file);
+            foreach ($files as $file) {
+                $filePath = string_to_path($path, $file);
 
-				if (is_dir($filePath)) {
-					directory_delete($filePath);
-				} else {
-					file_delete($filePath);
-				}
-			}
+                if (is_dir($filePath)) {
+                    directory_delete($filePath);
+                } else {
+                    file_delete($filePath);
+                }
+            }
 
-			return rmdir($path);
-		}
+            return rmdir($path);
+        }
 
-		return file_delete($path);
-	}
+        return file_delete($path);
+    }
 }
 
 if (!function_exists('directory_exists')) {
-	/**
-	 * Check if a directory exists.
-	 *
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-	function directory_exists($path): bool
-	{
-		return is_dir($path);
-	}
+    /**
+     * Check if a directory exists.
+     *
+     * @param $path
+     *
+     * @return bool
+     */
+    function directory_exists($path): bool
+    {
+        return is_dir($path);
+    }
 }
 
 if (!function_exists('directory_rename')) {
-	/**
-	 * Rename a directory.
-	 *
-	 * @param $path
-	 * @param $newName
-	 *
-	 * @return bool
-	 */
-	function directory_rename($path, $newName): bool
-	{
-		return file_rename($path, $newName);
-	}
+    /**
+     * Rename a directory.
+     *
+     * @param $path
+     * @param $newName
+     *
+     * @return bool
+     */
+    function directory_rename($path, $newName): bool
+    {
+        return file_rename($path, $newName);
+    }
 }
 
 if (!function_exists('directory_move')) {
-	/**
-	 * Move directory to the specified path.
-	 *
-	 * @param $oldPath
-	 * @param $newPath
-	 *
-	 * @return bool
-	 */
-	function directory_move($oldPath, $newPath): bool
-	{
-		return file_move($oldPath, $newPath);
-	}
+    /**
+     * Move directory to the specified path.
+     *
+     * @param $oldPath
+     * @param $newPath
+     *
+     * @return bool
+     */
+    function directory_move($oldPath, $newPath): bool
+    {
+        return file_move($oldPath, $newPath);
+    }
 }
 
 if (!function_exists('directory_copy')) {
-	/**
-	 * Copy a directory and all of its contents to the specified path
-	 * and create all necessary subdirectories.
-	 *
-	 * @param $oldPath
-	 * @param $newPath
-	 *
-	 * @return void
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/08/2021 57:10
-	 */
-	function directory_copy($oldPath, $newPath)
-	{
-		if (directory_exists($oldPath)) {
-			if (!directory_exists($newPath)) {
-				directory_create($newPath);
-			}
+    /**
+     * Copy a directory and all of its contents to the specified path
+     * and create all necessary subdirectories.
+     *
+     * @param $oldPath
+     * @param $newPath
+     *
+     * @return void
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 08/08/2021 57:10
+     */
+    function directory_copy($oldPath, $newPath)
+    {
+        if (directory_exists($oldPath)) {
+            if (!directory_exists($newPath)) {
+                directory_create($newPath);
+            }
 
-			$files = directory_list($oldPath);
+            $files = directory_list($oldPath);
 
-			foreach ($files as $file) {
-				$oldFilePath = string_to_path($oldPath, $file);
-				$newFilePath = string_to_path($newPath, $file);
+            foreach ($files as $file) {
+                $oldFilePath = string_to_path($oldPath, $file);
+                $newFilePath = string_to_path($newPath, $file);
 
-				if (directory_exists($oldFilePath)) {
-					directory_copy($oldFilePath, $newFilePath);
-				} else {
-					file_copy($oldFilePath, $newFilePath);
-				}
-			}
-		} else {
-			file_copy($oldPath, $newPath);
-		}
-	}
+                if (directory_exists($oldFilePath)) {
+                    directory_copy($oldFilePath, $newFilePath);
+                } else {
+                    file_copy($oldFilePath, $newFilePath);
+                }
+            }
+        } else {
+            file_copy($oldPath, $newPath);
+        }
+    }
 }
 if (!function_exists('directory_clear')) {
-	/**
-	 * Delete all files and directories inside a directory.
-	 *
-	 * @param $path
-	 */
-	function directory_clear($path)
-	{
-		if (directory_exists($path)) {
-			foreach (directory_list($path, true) as $file) {
-				directory_delete($file);
-			}
-		}
-	}
+    /**
+     * Delete all files and directories inside a directory.
+     *
+     * @param $path
+     */
+    function directory_clear($path)
+    {
+        if (directory_exists($path)) {
+            foreach (directory_list($path, true) as $file) {
+                directory_delete($file);
+            }
+        }
+    }
 }
 if (!function_exists('directory_list')) {
-	/**
-	 * Return a list of files and directories.
-	 *
-	 * @param      $path
-	 * @param bool $absolute
-	 *
-	 * @return array
-	 */
-	function directory_list($path, bool $absolute = false): array
-	{
-		if (!directory_exists($path)) {
-			return [];
-		}
+    /**
+     * Return a list of files and directories.
+     *
+     * @param      $path
+     * @param bool $absolute
+     *
+     * @return array
+     */
+    function directory_list($path, bool $absolute = false): array
+    {
+        if (!directory_exists($path)) {
+            return [];
+        }
 
-		$list = array_values(array_diff(scandir($path), ['.', '..']));
+        $list = array_values(array_diff(scandir($path), ['.', '..']));
 
-		if ($absolute) {
-			$list = array_map(static function ($item) use ($path) {
-				return string_to_path($path, $item);
-			}, $list);
-		}
+        if ($absolute) {
+            $list = array_map(static function ($item) use ($path) {
+                return string_to_path($path, $item);
+            }, $list);
+        }
 
-		return $list;
-	}
+        return $list;
+    }
 }
 
 if (!function_exists('directory_list_files')) {
-	/**
-	 * Return a list of files.
-	 *
-	 * @param      $path
-	 * @param bool $absolute
-	 *
-	 * @return array
-	 */
-	function directory_list_files($path, bool $absolute = false): array
-	{
-		return array_values(
-			array_filter(
-				directory_list($path, $absolute),
-				static function ($item) use ($path, $absolute) {
-					if (!$absolute) {
-						$item = string_to_path($path, $item);
-					}
+    /**
+     * Return a list of files.
+     *
+     * @param      $path
+     * @param bool $absolute
+     *
+     * @return array
+     */
+    function directory_list_files($path, bool $absolute = false): array
+    {
+        return array_values(
+            array_filter(
+                directory_list($path, $absolute),
+                static function ($item) use ($path, $absolute) {
+                    if (!$absolute) {
+                        $item = string_to_path($path, $item);
+                    }
 
-					return is_file($item);
-				}
-			)
-		);
-	}
+                    return is_file($item);
+                }
+            )
+        );
+    }
 }
 
 if (!function_exists('directory_list_directories')) {
-	/**
-	 * Function directory_list_directories
-	 *
-	 * @param       $path
-	 * @param false $absolute
-	 *
-	 * @return array
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/08/2021 52:56
-	 */
-	function directory_list_directories($path, bool $absolute = false): array
-	{
-		return array_values(
-			array_filter(
-				directory_list($path, $absolute),
-				static function ($item) use ($path, $absolute) {
-					if (!$absolute) {
-						$item = string_to_path($path, $item);
-					}
+    /**
+     * Function directory_list_directories
+     *
+     * @param       $path
+     * @param false $absolute
+     *
+     * @return array
+     * @author   : 713uk13m <dev@nguyenanhung.com>
+     * @copyright: 713uk13m <dev@nguyenanhung.com>
+     * @time     : 08/08/2021 52:56
+     */
+    function directory_list_directories($path, bool $absolute = false): array
+    {
+        return array_values(
+            array_filter(
+                directory_list($path, $absolute),
+                static function ($item) use ($path, $absolute) {
+                    if (!$absolute) {
+                        $item = string_to_path($path, $item);
+                    }
 
-					return is_dir($item);
-				}
-			)
-		);
-	}
+                    return is_dir($item);
+                }
+            )
+        );
+    }
 }
