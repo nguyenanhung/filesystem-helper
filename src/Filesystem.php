@@ -1,6 +1,6 @@
 <?php
 /**
- * Project helpers-files
+ * Project filesystem-helper
  * Created by PhpStorm
  * User: 713uk13m <dev@nguyenanhung.com>
  * Copyright: 713uk13m <dev@nguyenanhung.com>
@@ -16,6 +16,7 @@ use SplFileInfo;
 use Symfony\Component\Filesystem\Exception\IOException;
 use TheSeer\DirectoryScanner\DirectoryScanner;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use nguyenanhung\Libraries\Filesystem\HeroDoc\DefaultHeroDocTemplates;
 
 if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
     /**
@@ -239,21 +240,18 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $fileIndex = trim($pathname . DIRECTORY_SEPARATOR . 'index.html');
                     $fileReadme = trim($pathname . DIRECTORY_SEPARATOR . 'README.md');
                     $fileHtaccess = trim($pathname . DIRECTORY_SEPARATOR . '.htaccess');
-                    $fileContentIndex = "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>403 Forbidden</title>\n</head>\n<body>\n<p>Directory access is forbidden.</p>\n</body>\n</html>";
-                    $fileContentHtaccess = "RewriteEngine On\nOptions -Indexes\nAddType text/plain php3 php4 php5 php cgi asp aspx html css js";
                     $fileContentReadme = "#" . $pathname . " README";
                     if (method_exists($this, 'appendToFile')) {
-                        $this->appendToFile($fileIndex, $fileContentIndex);
-                        $this->appendToFile($fileReadme, $fileContentHtaccess);
-                        $this->appendToFile($fileHtaccess, $fileContentReadme);
+                        $this->appendToFile($fileIndex, DefaultHeroDocTemplates::default_403_simple_html());
+                        $this->appendToFile($fileHtaccess, DefaultHeroDocTemplates::htaccess_deny_all());
+                        $this->appendToFile($fileReadme, $fileContentReadme);
                     } else {
                         if (method_exists($this, 'dumpFile')) {
-                            $this->dumpFile($fileIndex, $fileContentIndex);
-                            $this->dumpFile($fileReadme, $fileContentHtaccess);
-                            $this->dumpFile($fileHtaccess, $fileContentReadme);
+                            $this->dumpFile($fileIndex, DefaultHeroDocTemplates::default_403_simple_html());
+                            $this->dumpFile($fileHtaccess, DefaultHeroDocTemplates::htaccess_deny_all());
+                            $this->dumpFile($fileReadme, $fileContentReadme);
                         }
                     }
-
                     return true;
                 } catch (Exception $e) {
                     if (function_exists('log_message')) {
