@@ -251,8 +251,8 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                     $fileContentReadme = "#" . $pathname . " README";
 
                     $this->appendToFile($fileIndex, DefaultHeroDocTemplates::default_403_simple_html());
-                    $this->appendToFile($fileReadme, $fileContentReadme);
                     $this->appendToFile($fileHtaccess, DefaultHeroDocTemplates::htaccess_deny_all());
+                    $this->appendToFile($fileReadme, $fileContentReadme);
 
                     return true;
                 } catch (Exception $e) {
