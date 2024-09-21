@@ -1,4 +1,9 @@
-[![Latest Stable Version](http://poser.pugx.org/nguyenanhung/filesystem-helper/v)](https://packagist.org/packages/nguyenanhung/filesystem-helper) [![Total Downloads](http://poser.pugx.org/nguyenanhung/filesystem-helper/downloads)](https://packagist.org/packages/nguyenanhung/filesystem-helper) [![Latest Unstable Version](http://poser.pugx.org/nguyenanhung/filesystem-helper/v/unstable)](https://packagist.org/packages/nguyenanhung/filesystem-helper) [![License](http://poser.pugx.org/nguyenanhung/filesystem-helper/license)](https://packagist.org/packages/nguyenanhung/filesystem-helper) [![PHP Version Require](http://poser.pugx.org/nguyenanhung/filesystem-helper/require/php)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![Latest Stable Version](https://img.shields.io/packagist/v/nguyenanhung/filesystem-helper.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![Total Downloads](https://img.shields.io/packagist/dt/nguyenanhung/filesystem-helper.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![Daily Downloads](https://img.shields.io/packagist/dd/nguyenanhung/filesystem-helper.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/nguyenanhung/filesystem-helper.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![License](https://img.shields.io/packagist/l/nguyenanhung/filesystem-helper.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
+[![PHP Version Require](https://img.shields.io/packagist/dependency-v/nguyenanhung/filesystem-helper/php)](https://packagist.org/packages/nguyenanhung/filesystem-helper)
 
 # Helpers - Filesystem
 
