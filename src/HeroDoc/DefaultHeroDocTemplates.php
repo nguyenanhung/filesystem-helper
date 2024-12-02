@@ -751,7 +751,7 @@ HTML;
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <p>&copy; Copyright 2024 <strong>HungNG Manage Server</strong> All Rights Reserved.</p>
+                <p>&copy; Copyright 2024 <strong>BEAR Manage Server</strong> All Rights Reserved.</p>
             </div>
         </div>
     </div>

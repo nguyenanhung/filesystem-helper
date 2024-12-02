@@ -19,7 +19,7 @@ namespace nguyenanhung\Libraries\Filesystem;
  */
 interface Environment
 {
-    const VERSION = '1.1.1';
+    const VERSION = '1.1.2';
     const LAST_MODIFIED = '2024-12-02';
     const AUTHOR_NAME = 'Hung Nguyen';
     const AUTHOR_EMAIL = 'dev@nguyenanhung.com';
