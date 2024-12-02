@@ -751,7 +751,7 @@ HTML;
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <p>&copy; Copyright 2024 <strong>HungNG Manage Server</strong> All Rights Reserved.</p>
+                <p>&copy; Copyright 2024 <strong>BEAR Manage Server</strong> All Rights Reserved.</p>
             </div>
         </div>
     </div>
@@ -759,8 +759,8 @@ HTML;
 <!-- end Footer -->
 
 <!-- Scripts -->
-<script src="https://hungna.github.io/assets/themes/sailor/assets/js/jquery-1.11.2.min.js" type="text/javascript"></script>
-<script src="https://hungna.github.io/assets/themes/sailor/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.1/dist/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
 
