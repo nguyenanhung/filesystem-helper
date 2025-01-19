@@ -323,7 +323,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
                 throw new IOException(\sprintf('Failed to read file "%s": File is a directory.', $filename));
             }
 
-            return file_get_contents($filename);
+            $content = file_get_contents($filename);
+            if ($content === false) {
+                throw new IOException(\sprintf('Failed to read file "%s".', $filename));
+            }
+            return $content;
         }
 
 
