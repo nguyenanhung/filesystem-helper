@@ -12,12 +12,12 @@ namespace nguyenanhung\Libraries\Filesystem;
 
 use DateTime;
 use Exception;
-use SplFileInfo;
 use Iterator;
-use Symfony\Component\Filesystem\Exception\IOException;
-use TheSeer\DirectoryScanner\DirectoryScanner;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use nguyenanhung\Libraries\Filesystem\HeroDoc\DefaultHeroDocTemplates;
+use SplFileInfo;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use TheSeer\DirectoryScanner\DirectoryScanner;
 
 if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
     /**
@@ -311,25 +311,6 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             fclose($fp);
 
             return true;
-        }
-
-        /**
-         * Function readFile - Opens the file specified in the path and returns it as a string.
-         *
-         * @param $file
-         *
-         * @return false|string|null
-         * @author   : 713uk13m <dev@nguyenanhung.com>
-         * @copyright: 713uk13m <dev@nguyenanhung.com>
-         * @time     : 08/18/2021 00:10
-         */
-        public function readFile($file)
-        {
-            if (file_exists($file)) {
-                return file_get_contents($file);
-            }
-
-            return null;
         }
 
         /**
