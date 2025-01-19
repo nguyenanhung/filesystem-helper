@@ -19,8 +19,8 @@ namespace nguyenanhung\Libraries\Filesystem;
  */
 interface Environment
 {
-    const VERSION = '2.1.2';
-    const LAST_MODIFIED = '2024-12-02';
+    const VERSION = '2.2.0';
+    const LAST_MODIFIED = '2025-01-19';
     const AUTHOR_NAME = 'Hung Nguyen';
     const AUTHOR_EMAIL = 'dev@nguyenanhung.com';
     const AUTHOR_URL = 'https://github.com/nguyenanhung';

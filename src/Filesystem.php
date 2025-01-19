@@ -12,12 +12,12 @@ namespace nguyenanhung\Libraries\Filesystem;
 
 use DateTime;
 use Exception;
-use SplFileInfo;
 use Iterator;
-use Symfony\Component\Filesystem\Exception\IOException;
-use TheSeer\DirectoryScanner\DirectoryScanner;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use nguyenanhung\Libraries\Filesystem\HeroDoc\DefaultHeroDocTemplates;
+use SplFileInfo;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use TheSeer\DirectoryScanner\DirectoryScanner;
 
 if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
     /**
@@ -313,24 +313,23 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
             return true;
         }
 
-        /**
-         * Function readFile - Opens the file specified in the path and returns it as a string.
-         *
-         * @param $file
-         *
-         * @return false|string|null
-         * @author   : 713uk13m <dev@nguyenanhung.com>
-         * @copyright: 713uk13m <dev@nguyenanhung.com>
-         * @time     : 08/18/2021 00:10
-         */
-        public function readFile($file)
+        public function readFile(string $filename): string
         {
-            if (file_exists($file)) {
-                return file_get_contents($file);
+            if (method_exists(SymfonyFilesystem::class, 'readFile')) {
+                return SymfonyFilesystem::readfile($filename);
             }
 
-            return null;
+            if (is_dir($filename)) {
+                throw new IOException(\sprintf('Failed to read file "%s": File is a directory.', $filename));
+            }
+
+            $content = file_get_contents($filename);
+            if ($content === false) {
+                throw new IOException(\sprintf('Failed to read file "%s".', $filename));
+            }
+            return $content;
         }
+
 
         /**
          * Write File
@@ -344,8 +343,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool
          */
-        public function writeFile(string $path, string $data, string $mode = 'wb'): bool
-        {
+        public
+        function writeFile(
+            string $path,
+            string $data,
+            string $mode = 'wb'
+        ): bool {
             if (!$fp = @fopen($path, $mode)) {
                 return false;
             }
@@ -379,8 +382,13 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool
          */
-        public function deleteFiles(string $path, bool $del_dir = false, bool $htdocs = false, int $_level = 0): bool
-        {
+        public
+        function deleteFiles(
+            string $path,
+            bool $del_dir = false,
+            bool $htdocs = false,
+            int $_level = 0
+        ): bool {
             // Trim the trailing slash
             $path = rtrim($path, '/\\');
 
@@ -424,8 +432,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    array|bool
          */
-        public function getFilenames($source_dir, $include_path = false, $_recursion = false)
-        {
+        public
+        function getFilenames(
+            $source_dir,
+            $include_path = false,
+            $_recursion = false
+        ) {
             static $_fileData = array();
 
             if ($fp = @opendir($source_dir)) {
@@ -465,8 +477,12 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    array|bool
          */
-        public function getDirectoryFileInformation($source_dir, $top_level_only = true, $_recursion = false)
-        {
+        public
+        function getDirectoryFileInformation(
+            $source_dir,
+            $top_level_only = true,
+            $_recursion = false
+        ) {
             static $_fileData = array();
             $relative_path = $source_dir;
 
@@ -512,8 +528,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return array|false
          */
-        public function getFileInfo(string $file, $returned_values = array('name', 'server_path', 'size', 'date'))
-        {
+        public
+        function getFileInfo(
+            string $file,
+            $returned_values = array('name', 'server_path', 'size', 'date')
+        ) {
             if (!file_exists($file)) {
                 return false;
             }
@@ -567,8 +586,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    bool|string
          */
-        public function getMimeByExtension(string $filename)
-        {
+        public
+        function getMimeByExtension(
+            string $filename
+        ) {
             return Mimes::getMimeByExtension($filename);
         }
 
@@ -582,8 +603,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function symbolicPermissions(int $perms): string
-        {
+        public
+        function symbolicPermissions(
+            int $perms
+        ): string {
             if (($perms & 0xC000) === 0xC000) {
                 $symbolic = 's'; // Socket
             } elseif (($perms & 0xA000) === 0xA000) {
@@ -624,8 +647,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function octalPermissions(int $perms): string
-        {
+        public
+        function octalPermissions(
+            int $perms
+        ): string {
             return mb_substr(sprintf('%o', $perms), -3);
         }
 
@@ -639,8 +664,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 56:42
          */
-        public function fileGetDirectory($path)
-        {
+        public
+        function fileGetDirectory(
+            $path
+        ) {
             return pathinfo($path, PATHINFO_DIRNAME);
         }
 
@@ -654,8 +681,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 57:39
          */
-        public function fileGetExtension($path)
-        {
+        public
+        function fileGetExtension(
+            $path
+        ) {
             return pathinfo($path, PATHINFO_EXTENSION);
         }
 
@@ -669,8 +698,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 59:10
          */
-        public function fileGetBasename($path)
-        {
+        public
+        function fileGetBasename(
+            $path
+        ) {
             return pathinfo($path, PATHINFO_BASENAME);
         }
 
@@ -684,8 +715,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 08/18/2021 00:14
          */
-        public function fileRead($file)
-        {
+        public
+        function fileRead(
+            $file
+        ) {
             return $this->readFile($file);
         }
 
@@ -696,8 +729,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileCreate($path): bool
-        {
+        public
+        function fileCreate(
+            $path
+        ): bool {
             if (!file_exists($path)) {
                 $dir = $this->fileGetDirectory($path);
 
@@ -719,8 +754,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileWrite($path, $content): bool
-        {
+        public
+        function fileWrite(
+            $path,
+            $content
+        ): bool {
             $this->fileCreate($path);
 
             return file_put_contents($path, $content) !== false;
@@ -734,8 +772,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileAppend($path, $content): bool
-        {
+        public
+        function fileAppend(
+            $path,
+            $content
+        ): bool {
             if (file_exists($path)) {
                 return $this->fileWrite($path, $this->fileRead($path) . $content);
             }
@@ -751,8 +792,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function filePrepend($path, $content): bool
-        {
+        public
+        function filePrepend(
+            $path,
+            $content
+        ): bool {
             if (file_exists($path)) {
                 return $this->fileWrite($path, $content . $this->fileRead($path));
             }
@@ -767,8 +811,10 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileDelete($path): bool
-        {
+        public
+        function fileDelete(
+            $path
+        ): bool {
             if (file_exists($path)) {
                 return unlink($path);
             }
@@ -785,8 +831,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function file_move($oldPath, $newPath): bool
-        {
+        public
+        function file_move(
+            $oldPath,
+            $newPath
+        ): bool {
             return $this->fileMove($oldPath, $newPath);
         }
 
@@ -799,8 +848,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileMove($oldPath, $newPath): bool
-        {
+        public
+        function fileMove(
+            $oldPath,
+            $newPath
+        ): bool {
             $dir = $this->fileGetDirectory($newPath);
 
             if (!directory_exists($dir)) {
@@ -819,8 +871,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return bool
          */
-        public function fileCopy($oldPath, $newPath): bool
-        {
+        public
+        function fileCopy(
+            $oldPath,
+            $newPath
+        ): bool {
             $dir = $this->fileGetDirectory($newPath);
 
             if (!is_dir($dir)) {
@@ -841,8 +896,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 09/24/2021 13:56
          */
-        public function fileRename($path, $newName): bool
-        {
+        public
+        function fileRename(
+            $path,
+            $newName
+        ): bool {
             try {
                 $this->rename($path, $newName);
 
@@ -866,8 +924,11 @@ if (!class_exists('nguyenanhung\Libraries\Filesystem\Filesystem')) {
          *
          * @return    string
          */
-        public function sanitizeFilename(string $str, bool $relative_path = false): string
-        {
+        public
+        function sanitizeFilename(
+            string $str,
+            bool $relative_path = false
+        ): string {
             $bad = array(
                 '../',
                 '<!--',
